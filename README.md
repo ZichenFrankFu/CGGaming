@@ -11,23 +11,24 @@ Rogue-like, horror, mockumentary, single-player.
 ### **Inspiration**
 
 [**Backrooms.**](https://store.steampowered.com/app/1987080/Inside\_the\_Backrooms/)
+![Uploading image1.png…]()
 
 We are all impressed by the simplistic art style of Backroom’s room designs, which creates a sense of isolation and horror, even in the provided vast spaces. We want to create rooms that have similar art styles, where the familiar becomes unsettlingly unfamiliar.
 
 [**Inscryption.**](https://store.steampowered.com/app/1092790/Inscryption/)
-
+![Uploading image4.png…]()
 Inspired by the boss designs in Inscryption, where creatures are defined by their vague shapes and key features like floating eyes and hands, we aim to create monsters that would evoke a similar sense of psychological horror. 
 
 [**Classrooms.**](https://store.steampowered.com/app/2099110/The\_Classrooms/)
-
+![Uploading image2.png…]()
 Our user interface style choice (mockumentary) is inspired from this game to promote a realistic sense. The health is represented as the battery of the camera. The monsters can either be sensitive to movement, light, or sound, which makes those the key elements to escape from specific rooms.
 
 [**Fork Road.**](https://store.steampowered.com/app/2976400/Fork\_Road/) 
-
+![Uploading image3.png…]()
 This game inspires the design of our Choice rooms. We want to incorporate several psychological tricks, such as distraction, to make the choice process more interesting and horrifying. 
 
 [**SCP.**](https://scp-wiki.wikidot.com/)
-
+![Uploading image5.png…]()
 SCP (Secure,Contain, Protect) Foundation inspires our story set ups: this universe has many anomalies, which can be either creatures or objects with supernatural power. The anomalies are “contained” by the SCP Foundation to protect humanity. 
 
 ### **Platform**
