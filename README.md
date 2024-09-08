@@ -11,7 +11,7 @@ Rogue-like, horror, mockumentary, single-player.
 ### **Inspiration**
 
 [**Backrooms.**](https://store.steampowered.com/app/1987080/Inside\_the\_Backrooms/)
-![backrooms](images/backrooms.png= 250x250)
+![backrooms](images/backrooms.png)
 
 We are all impressed by the simplistic art style of Backroom’s room designs, which creates a sense of isolation and horror, even in the provided vast spaces. We want to create rooms that have similar art styles, where the familiar becomes unsettlingly unfamiliar.
 
