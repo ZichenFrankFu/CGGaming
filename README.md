@@ -11,7 +11,7 @@ Rogue-like, horror, mockumentary, single-player.
 ### **Inspiration**
 
 [**Backrooms.**](https://store.steampowered.com/app/1987080/Inside\_the\_Backrooms/)
-![backrooms](images/backrooms.png)
+![backrooms](images/backrooms.png | width = 50)
 
 We are all impressed by the simplistic art style of Backroom’s room designs, which creates a sense of isolation and horror, even in the provided vast spaces. We want to create rooms that have similar art styles, where the familiar becomes unsettlingly unfamiliar.
 
@@ -20,7 +20,7 @@ We are all impressed by the simplistic art style of Backroom’s room designs, w
 Inspired by the boss designs in Inscryption, where creatures are defined by their vague shapes and key features like floating eyes and hands, we aim to create monsters that would evoke a similar sense of psychological horror. 
 
 [**Classrooms.**](https://store.steampowered.com/app/2099110/The\_Classrooms/)
-![classrooms](images/incryption.png)
+![classrooms](images/classrooms.png)
 Our user interface style choice (mockumentary) is inspired from this game to promote a realistic sense. The health is represented as the battery of the camera. The monsters can either be sensitive to movement, light, or sound, which makes those the key elements to escape from specific rooms.
 
 [**Fork Road.**](https://store.steampowered.com/app/2976400/Fork\_Road/) 
