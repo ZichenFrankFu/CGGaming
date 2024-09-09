@@ -15,6 +15,29 @@ Rogue-like, horror, mockumentary, single-player.
 
 We are all impressed by the simplistic art style of Backroom’s room designs, which creates a sense of isolation and horror, even in the provided vast spaces. We want to create rooms that have similar art styles, where the familiar becomes unsettlingly unfamiliar.
 
+## Inspiration
+
+<div style="display: flex; align-items: flex-start; justify-content: space-between;">
+
+  <div style="width: 45%;">
+    <a href="https://store.steampowered.com/app/1092790/Inscryption/">
+      <strong>Inscryption.</strong>
+    </a>
+    <img src="images/incryption.png" alt="Inscryption" style="width:100%; float: left; margin-right: 10px;">
+    <p>Inspired by the boss designs in Inscryption, where creatures are defined by their vague shapes and key features like floating eyes and hands, we aim to create monsters that would evoke a similar sense of psychological horror.</p>
+  </div>
+
+  <div style="width: 45%;">
+    <a href="https://store.steampowered.com/app/2099110/The_Classrooms/">
+      <strong>Classrooms.</strong>
+    </a>
+    <img src="images/classrooms.png" alt="Classrooms" style="width:100%; float: right; margin-left: 10px;">
+    <p>Our user interface style choice (mockumentary) is inspired from this game to promote a realistic sense. The health is represented as the battery of the camera. The monsters can either be sensitive to movement, light, or sound, which makes those the key elements to escape from specific rooms.</p>
+  </div>
+
+</div>
+
+
 [**Inscryption.**](https://store.steampowered.com/app/1092790/Inscryption/)
 ![Inscryption](images/incryption.png)
 Inspired by the boss designs in Inscryption, where creatures are defined by their vague shapes and key features like floating eyes and hands, we aim to create monsters that would evoke a similar sense of psychological horror. 
