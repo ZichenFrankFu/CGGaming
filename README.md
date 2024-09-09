@@ -15,29 +15,6 @@ Rogue-like, horror, mockumentary, single-player.
 
 We are all impressed by the simplistic art style of Backroom’s room designs, which creates a sense of isolation and horror, even in the provided vast spaces. We want to create rooms that have similar art styles, where the familiar becomes unsettlingly unfamiliar.
 
-## Inspiration
-
-<div style="display: flex; align-items: flex-start; justify-content: space-between;">
-
-  <div style="width: 45%;">
-    <a href="https://store.steampowered.com/app/1092790/Inscryption/">
-      <strong>Inscryption.</strong>
-    </a>
-    <img src="images/incryption.png" alt="Inscryption" style="width:100%; float: left; margin-right: 10px;">
-    <p>Inspired by the boss designs in Inscryption, where creatures are defined by their vague shapes and key features like floating eyes and hands, we aim to create monsters that would evoke a similar sense of psychological horror.</p>
-  </div>
-
-  <div style="width: 45%;">
-    <a href="https://store.steampowered.com/app/2099110/The_Classrooms/">
-      <strong>Classrooms.</strong>
-    </a>
-    <img src="images/classrooms.png" alt="Classrooms" style="width:100%; float: right; margin-left: 10px;">
-    <p>Our user interface style choice (mockumentary) is inspired from this game to promote a realistic sense. The health is represented as the battery of the camera. The monsters can either be sensitive to movement, light, or sound, which makes those the key elements to escape from specific rooms.</p>
-  </div>
-
-</div>
-
-
 [**Inscryption.**](https://store.steampowered.com/app/1092790/Inscryption/)
 ![Inscryption](images/incryption.png)
 Inspired by the boss designs in Inscryption, where creatures are defined by their vague shapes and key features like floating eyes and hands, we aim to create monsters that would evoke a similar sense of psychological horror. 
@@ -53,6 +30,63 @@ This game inspires the design of our Choice rooms. We want to incorporate severa
 [**SCP.**](https://scp-wiki.wikidot.com/)
 ![scp](images/scp.png)
 SCP (Secure,Contain, Protect) Foundation inspires our story set ups: this universe has many anomalies, which can be either creatures or objects with supernatural power. The anomalies are “contained” by the SCP Foundation to protect humanity. 
+
+### **Inspiration**
+
+<div style="display: flex; align-items: flex-start; justify-content: flex-start; flex-wrap: wrap; gap: 20px;">
+
+  <div style="width: 45%;">
+    <a href="https://store.steampowered.com/app/1987080/Inside_the_Backrooms/">
+      <strong>Backrooms.</strong>
+    </a>
+    <div style="display: flex; align-items: center;">
+      <img src="images/backrooms.png" alt="backrooms" style="width: 30%; margin-right: 10px;">
+      <p>We are all impressed by the simplistic art style of Backroom’s room designs, which creates a sense of isolation and horror, even in the provided vast spaces. We want to create rooms that have similar art styles, where the familiar becomes unsettlingly unfamiliar.</p>
+    </div>
+  </div>
+
+  <div style="width: 45%;">
+    <a href="https://store.steampowered.com/app/1092790/Inscryption/">
+      <strong>Inscryption.</strong>
+    </a>
+    <div style="display: flex; align-items: center;">
+      <img src="images/incryption.png" alt="Inscryption" style="width: 30%; margin-right: 10px;">
+      <p>Inspired by the boss designs in Inscryption, where creatures are defined by their vague shapes and key features like floating eyes and hands, we aim to create monsters that would evoke a similar sense of psychological horror.</p>
+    </div>
+  </div>
+
+  <div style="width: 45%;">
+    <a href="https://store.steampowered.com/app/2099110/The_Classrooms/">
+      <strong>Classrooms.</strong>
+    </a>
+    <div style="display: flex; align-items: center;">
+      <img src="images/classrooms.png" alt="classrooms" style="width: 30%; margin-right: 10px;">
+      <p>Our user interface style choice (mockumentary) is inspired from this game to promote a realistic sense. The health is represented as the battery of the camera. The monsters can either be sensitive to movement, light, or sound, which makes those the key elements to escape from specific rooms.</p>
+    </div>
+  </div>
+
+  <div style="width: 45%;">
+    <a href="https://store.steampowered.com/app/2976400/Fork_Road/">
+      <strong>Fork Road.</strong>
+    </a>
+    <div style="display: flex; align-items: center;">
+      <img src="images/forkroad.png" alt="forkroad" style="width: 30%; margin-right: 10px;">
+      <p>This game inspires the design of our Choice rooms. We want to incorporate several psychological tricks, such as distraction, to make the choice process more interesting and horrifying.</p>
+    </div>
+  </div>
+
+  <div style="width: 45%;">
+    <a href="https://scp-wiki.wikidot.com/">
+      <strong>SCP.</strong>
+    </a>
+    <div style="display: flex; align-items: center;">
+      <img src="images/scp.png" alt="scp" style="width: 30%; margin-right: 10px;">
+      <p>SCP (Secure, Contain, Protect) Foundation inspires our story setups: this universe has many anomalies, which can be either creatures or objects with supernatural power. The anomalies are “contained” by the SCP Foundation to protect humanity.</p>
+    </div>
+  </div>
+
+</div>
+
 
 ### **Platform**
 
