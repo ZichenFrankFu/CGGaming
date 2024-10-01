@@ -15,16 +15,20 @@ import com.jme3.scene.shape.Box;
 public class Main extends SimpleApplication {
 
     public static void main(String[] args) {
+        //Main app = new Main();
         LoadModel app = new LoadModel ();
-        app.start();
+        app.start(); 
+   
     }
 
     @Override
     public void simpleInitApp() {
-        flyCam.setEnabled(true);
-        flyCam.setMoveSpeed(1000);
+        //LoadModel loadModel = new LoadModel();
+        //loadModel.simpleInitApp();
+        //UserInput userInput = new UserInput();
+        //userInput.simpleInitApp();
     }
-
+    
     @Override
     public void simpleUpdate(float tpf) {
         //TODO: add update code

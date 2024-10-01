@@ -25,8 +25,7 @@ public class LoadModel extends SimpleApplication {
                                 
     @Override
 public void simpleInitApp() {
-    //viewPort.setBackgroundColor(ColorRGBA.White);
-
+    
     // Create a node for the classroom
     Node classroom = new Node("Classroom");
 
@@ -89,6 +88,21 @@ public void simpleInitApp() {
     sun3.setDirection(new Vector3f(-1, -1, -1));
     sun3.setColor(ColorRGBA.White);
     elevatorNode.addLight(sun3);
+    
+    DirectionalLight classroomLight = new DirectionalLight();
+    classroomLight.setDirection(new Vector3f(1, -1, 0));
+    classroomLight.setColor(ColorRGBA.Gray.mult(0.8f));
+    classroom.addLight(classroomLight);
+    
+    DirectionalLight classroomLight2 = new DirectionalLight();
+    classroomLight2.setDirection(new Vector3f(-1, -1, 0));
+    classroomLight2.setColor(ColorRGBA.Gray.mult(0.8f));
+    classroom.addLight(classroomLight2);
+   
+    DirectionalLight classroomLight3 = new DirectionalLight();
+    classroomLight3.setDirection(new Vector3f(0, -1, 1));
+    classroomLight3.setColor(ColorRGBA.Gray.mult(0.8f));
+    classroom.addLight(classroomLight3);
     
     /*
     // Ensure the model materials are configured correctly for lighting
