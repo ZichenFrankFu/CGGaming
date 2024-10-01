@@ -59,7 +59,7 @@ We also decide to design a plentiful of side stories for the rooms, leaving clue
 
 User Interface:
 
-As for the mockumentary style, we would not incorporate too many elements on the canvas, but simply health (shown as the battery of the camera), backpack, and time. 
+As for the mockumentary style, we would not incorporate too many elements on the canvas, but simply health (shown as the battery of the camera), backpack, and save/load button. 
 
 Text Information: 
 
