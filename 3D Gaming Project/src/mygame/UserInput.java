@@ -22,6 +22,7 @@ public class UserInput {
 
     private Camera cam;
     private InputManager inputManager;
+    private GameState gameState;
     private List<Spatial> pickableItems; // List to store pickable items
     private BitmapText notificationText; // Notification for item pick-up
     private Spatial aimedItem; // The currently aimed item (if any)
@@ -32,9 +33,10 @@ public class UserInput {
     private float currentSpeed = normalSpeed; // The current movement speed
     private float cameraHeight = 1.75f;  // Fixed camera height for walking
 
-    public UserInput(Camera cam, InputManager inputManager, BitmapText notificationText) {
+    public UserInput(Camera cam, InputManager inputManager, GameState gameState, BitmapText notificationText) {
         this.cam = cam;
         this.inputManager = inputManager;
+        this.gameState = gameState;
         this.notificationText = notificationText;
         this.pickableItems = new ArrayList<>(); // Initialize list of pickable items
         initializeInput();
@@ -118,6 +120,9 @@ public class UserInput {
             } else if (name.equals("PickUp") && isPressed) {
                 pickUpItem(); // Pick up the aimed item
             }
+            
+            // Update the movement keys in GameState
+            gameState.setMovementKeys(forward, backward, left, right, speedBoost);
         }
     };
 

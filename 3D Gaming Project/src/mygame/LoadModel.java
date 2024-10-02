@@ -29,7 +29,7 @@ public class LoadModel extends SimpleApplication {
     private UserInput userInput;
     private BitmapText notificationText;
     private BitmapText crosshair;
-
+    private GameState gameState;
 
     public static void main(String[] args) {
         LoadModel app = new LoadModel();
@@ -107,8 +107,11 @@ public class LoadModel extends SimpleApplication {
     notificationText.setColor(ColorRGBA.Red);
     guiNode.attachChild(notificationText);
     
+    gameState = new GameState(cam, inputManager);
+    stateManager.attach(gameState);
+    
     // Initialize the UserInput class with the notification text
-    userInput = new UserInput(cam, inputManager, notificationText);
+    userInput = new UserInput(cam, inputManager, gameState, notificationText);
 
     // Add items to the pickable list
     userInput.addPickableItem(poop);
@@ -167,7 +170,7 @@ public class LoadModel extends SimpleApplication {
     cam.lookAtDirection(new Vector3f(0, 0, -1), Vector3f.UNIT_Y); // Set initial direction
 
     // Enable FlyCam for rotation
-    flyCam.setMoveSpeed(0);  // Disable FlyCam movement, we'll handle custom movement
+    // flyCam.setMoveSpeed(0);  // Disable FlyCam movement, we'll handle custom movement
 
     // UI icons
     // To load the save/load icon in top left corner
