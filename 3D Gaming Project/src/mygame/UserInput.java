@@ -7,60 +7,95 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.Trigger;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
+import com.jme3.input.InputManager;
+import com.jme3.math.FastMath;
+import com.jme3.renderer.Camera;
 
 /**
  * This is the Main Class of your Game. You should only do initialization here.
  * Move your Logic into AppStates or Controls
  * @author normenhansen
  */
-public class UserInput extends SimpleApplication {
+public class UserInput{
     
-    private final Trigger TRIGGER_SHIFT = new KeyTrigger(KeyInput.KEY_LSHIFT);
-    private final String MAPPING_SPEED_UP = "SpeedUp";
-    
-    private final float normalSpeed = 5.0f;   // Default movement speed
-    private final float fastSpeed = 10.0f;    // Increased movement speed
-    private boolean isSpeedBoost = false;
+    private Camera cam;
+    private InputManager inputManager;
 
-    public static void main(String[] args) {
-        UserInput app = new UserInput ();
-        app.start();
+    private boolean forward = false, backward = false, left = false, right = false, speedBoost = false;
+    private float normalSpeed = 5.0f;  // Normal movement speed
+    private float fastSpeed = 10.0f;   // Speed when Shift is held down
+    private float currentSpeed = normalSpeed; // The current movement speed
+    private float cameraHeight = 1.75f;  // Fixed camera height for walking
+
+    public UserInput(Camera cam, InputManager inputManager) {
+        this.cam = cam;
+        this.inputManager = inputManager;
+        initializeInput();
     }
 
+    private void initializeInput() {
+        // Set up key mappings for movement and speed boost
+        inputManager.addMapping("MoveForward", new KeyTrigger(KeyInput.KEY_W));
+        inputManager.addMapping("MoveBackward", new KeyTrigger(KeyInput.KEY_S));
+        inputManager.addMapping("MoveLeft", new KeyTrigger(KeyInput.KEY_A));
+        inputManager.addMapping("MoveRight", new KeyTrigger(KeyInput.KEY_D));
+        inputManager.addMapping("SpeedUp", new KeyTrigger(KeyInput.KEY_LSHIFT));
+
+        // Attach the action listener for the input mappings
+        inputManager.addListener(actionListener, "MoveForward", "MoveBackward", "MoveLeft", "MoveRight", "SpeedUp");
+    }
+
+private final ActionListener actionListener = new ActionListener() {
     @Override
-    public void simpleInitApp() {
-        // Map the Shift key to increase movement speed
-        inputManager.addMapping(MAPPING_SPEED_UP, TRIGGER_SHIFT);
-        inputManager.addListener(actionListener, MAPPING_SPEED_UP);
-    }
-
-    private final ActionListener actionListener = new ActionListener() {
-        @Override
-        public void onAction(String name, boolean isPressed, float tpf) {
-            if (name.equals(MAPPING_SPEED_UP)) {
-                isSpeedBoost = isPressed;
-            }
+    public void onAction(String name, boolean isPressed, float tpf) {
+        if (name.equals("MoveForward")) {
+            forward = isPressed;
+        } else if (name.equals("MoveBackward")) {
+            backward = isPressed;
+        } else if (name.equals("MoveLeft")) {
+            left = isPressed;
+        } else if (name.equals("MoveRight")) {
+            right = isPressed;
+        } else if (name.equals("SpeedUp")) {
+            speedBoost = isPressed;
         }
-    };
-    
-    @Override
-    public void simpleUpdate(float tpf) {
-        // Handle movement and adjust speed when Shift is pressed
-        Vector3f moveDirection = new Vector3f();
-        
-        if (isSpeedBoost) {
-            // Move faster when Shift is held down
-            moveDirection.multLocal(fastSpeed);
-        } else {
-            // Default movement speed
-            moveDirection.multLocal(normalSpeed);
+    }
+};
+
+
+    // Method to update the camera position based on input
+    public void updateCamera(float tpf) {
+        // Set the current speed depending on whether Shift is pressed
+        currentSpeed = speedBoost ? fastSpeed : normalSpeed;
+
+        // Create a vector for movement
+        Vector3f walkDirection = new Vector3f(0, 0, 0);
+
+        // Calculate movement direction based on key inputs and camera's current orientation
+        if (forward) {
+            walkDirection.addLocal(cam.getDirection().mult(currentSpeed * tpf));
         }
-        
-        // Apply movement logic here, for example:
-        // player.setWalkDirection(moveDirection);
+        if (backward) {
+            walkDirection.addLocal(cam.getDirection().mult(-currentSpeed * tpf));
+        }
+        if (left) {
+            walkDirection.addLocal(cam.getLeft().mult(currentSpeed * tpf));
+        }
+        if (right) {
+            walkDirection.addLocal(cam.getLeft().mult(-currentSpeed * tpf));
+        }
+
+        // Get the current camera position
+        Vector3f camPos = cam.getLocation();
+
+        // Apply movement only in the XZ plane and keep the camera height (Y-axis) fixed
+        camPos.addLocal(walkDirection.x, 0, walkDirection.z);
+        camPos.y = cameraHeight; // Ensure the camera stays at the walking height
+
+        // Set the new camera position
+        cam.setLocation(camPos);
     }
 
-    @Override
     public void simpleRender(RenderManager rm) {
         //TODO: add render code
     }

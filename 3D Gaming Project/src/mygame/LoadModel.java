@@ -23,9 +23,7 @@ import com.jme3.ui.Picture;
  */
 public class LoadModel extends SimpleApplication {
     
-    // Define room boundaries (adjust based on your room model's dimensions)
-    private Vector3f roomMinBound = new Vector3f(-10f, 0f, -10f); // Min corner of the room
-    private Vector3f roomMaxBound = new Vector3f(10f, 5f, 10f);   // Max corner of the room
+    private UserInput userInput;
 
 
     public static void main(String[] args) {
@@ -115,7 +113,7 @@ public void simpleInitApp() {
     classroom.addLight(classroomLight3);
     
     /*
-    // Ensure the model materials are configured correctly for lighting
+    // Elevator Model Material for test
     Material mat = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
     mat.setBoolean("UseMaterialColors", true);
     mat.setColor("Diffuse", ColorRGBA.White);
@@ -127,92 +125,42 @@ public void simpleInitApp() {
     // Constrain the camera to walk in the room
     // Disable the default fly camera to implement custom walking
     flyCam.setEnabled(true);
-    cam.setLocation(new Vector3f(0, 1.75f, 0)); // initialize camera position to be in the room
-    Vector3f direction = new Vector3f(0, -0.5f, -1);  // Looking forward along the negative Z-axis
-    Vector3f up = Vector3f.UNIT_Y;  // Y-axis is up
-    
-    // Set the camera's look direction
-    cam.lookAtDirection(direction, up);
+    // Set the initial camera position and direction
+    cam.setLocation(new Vector3f(0, 1.75f, 0)); // Set initial position
+    cam.lookAtDirection(new Vector3f(0, 0, -1), Vector3f.UNIT_Y); // Set initial direction
 
+    // Enable FlyCam for rotation
+    flyCam.setMoveSpeed(0);  // Disable FlyCam movement, we'll handle custom movement
 
-    // Set up custom key mappings for camera movement
-    inputManager.addMapping("MoveForward", new KeyTrigger(KeyInput.KEY_W));
-    inputManager.addMapping("MoveBackward", new KeyTrigger(KeyInput.KEY_S));
-    inputManager.addMapping("MoveLeft", new KeyTrigger(KeyInput.KEY_A));
-    inputManager.addMapping("MoveRight", new KeyTrigger(KeyInput.KEY_D));
-
-    // Add listener for key mappings
-    inputManager.addListener(actionListener, "MoveForward", "MoveBackward", "MoveLeft", "MoveRight");
+    // Initialize the UserInput class and pass the camera and input manager
+    userInput = new UserInput(cam, inputManager);
 
     // flyCam.setMoveSpeed(10); // Increase or decrease the value to adjust speed
     
     // UI icons
     // To load the save/load icon in top left corner
-        Picture frame = new Picture("User interface frame");
-        frame.setImage(assetManager, "Interface/save.png", false); 
-        float iconWidth = 52; // this is arbitary
-        float iconHeight = 47;
-        frame.setWidth(iconWidth);
-        frame.setHeight(iconHeight);
-        frame.setPosition(5, settings.getHeight() - iconHeight - 9);
-        guiNode.attachChild(frame);
-        
-        Picture frame2 = new Picture("Button 2");
-        frame2.setImage(assetManager, "Interface/load.png", false);
-        frame2.setWidth(iconWidth);
-        frame2.setHeight(iconHeight);
-        frame2.setPosition(5 + iconWidth + 5, settings.getHeight() - iconHeight - 5);
-        guiNode.attachChild(frame2);
+    Picture frame = new Picture("User interface frame");
+    frame.setImage(assetManager, "Interface/save.png", false); 
+    float iconWidth = 52; // this is arbitary
+    float iconHeight = 47;
+    frame.setWidth(iconWidth);
+    frame.setHeight(iconHeight);
+    frame.setPosition(5, settings.getHeight() - iconHeight - 9);
+    guiNode.attachChild(frame);
+
+    Picture frame2 = new Picture("Button 2");
+    frame2.setImage(assetManager, "Interface/load.png", false);
+    frame2.setWidth(iconWidth);
+    frame2.setHeight(iconHeight);
+    frame2.setPosition(5 + iconWidth + 5, settings.getHeight() - iconHeight - 5);
+    guiNode.attachChild(frame2);
 }
 
-private boolean forward = false, backward = false, left = false, right = false;
-private float walkSpeed = 5.0f; // Movement speed
-private float cameraHeight = 1.75f; // Fixed camera height for walking
 
-private final ActionListener actionListener = new ActionListener() {
+
     @Override
-    public void onAction(String name, boolean isPressed, float tpf) {
-        if (name.equals("MoveForward")) {
-            forward = isPressed;
-        } else if (name.equals("MoveBackward")) {
-            backward = isPressed;
-        } else if (name.equals("MoveLeft")) {
-            left = isPressed;
-        } else if (name.equals("MoveRight")) {
-            right = isPressed;
-        }
-    }
-};
-
-
-@Override
-public void simpleUpdate(float tpf) {
-    // Create a vector for movement
-    Vector3f walkDirection = new Vector3f(0, 0, 0);
-
-    // Update direction based on the key inputs
-    if (forward) {
-        walkDirection.addLocal(cam.getDirection().mult(walkSpeed * tpf));
-    }
-    if (backward) {
-        walkDirection.addLocal(cam.getDirection().mult(-walkSpeed * tpf));
-    }
-    if (left) {
-        walkDirection.addLocal(cam.getLeft().mult(walkSpeed * tpf));
-    }
-    if (right) {
-        walkDirection.addLocal(cam.getLeft().mult(-walkSpeed * tpf));
-    }
-
-    // Get current camera position
-    Vector3f camPos = cam.getLocation();
-
-    // Apply movement only in the XZ plane and keep the camera height (Y-axis) fixed
-    camPos.addLocal(walkDirection.x, 0, walkDirection.z);
-    camPos.y = cameraHeight; // Ensure the camera stays at the walking height
-
-    // Optionally, clamp movement to room boundaries (if necessary)
-    cam.setLocation(camPos);
+    public void simpleUpdate(float tpf) {
+        userInput.updateCamera(tpf);
 }
 
 
