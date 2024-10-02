@@ -1,6 +1,9 @@
+/**
+ * Authors: Jitong Xian, Xinming Shen, Zichen Fu
+ * Object control class of game. 
+ */
+
 package mygame;
-
-
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Spatial;
@@ -38,18 +41,6 @@ public class ObjectControl extends AbstractControl {
         ObjectControl control = new ObjectControl(rotationSpeed);
         control.setSpatial(spatial);
         return control;
-    }
-    
-    public void simpleInitApp() {
-        
-    }
-    
-    public void simpleUpdate(float tpf) {
-        //TODO: add update code
-    }
-
-    public void simpleRender(RenderManager rm) {
-        //TODO: add render code
     }
     
 }

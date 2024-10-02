@@ -1,5 +1,9 @@
-package mygame;
+/**
+ * Authors: Jitong Xian, Xinming Shen, Zichen Fu
+ * Load model class of game. 
+ */
 
+package mygame;
 import com.jme3.app.SimpleApplication;
 import com.jme3.font.BitmapText;
 import com.jme3.light.DirectionalLight;
@@ -16,7 +20,7 @@ import com.jme3.ui.Picture;
 
 
 /**
- * This is the Main Class of your Game. You should only do initialization here.
+ * This is the Main Class of the Game. You should only do initialization here.
  * Move your Logic into AppStates or Controls
  * @author normenhansen
  */
@@ -205,18 +209,4 @@ public class LoadModel extends SimpleApplication {
         guiNode.attachChild(crosshair);
     }
     
-    public void setLighting() {
-    
-        
-    }
-    @Override
-    public void simpleUpdate(float tpf) {
-        userInput.updateCamera(tpf);
-}
-
-
-    @Override
-    public void simpleRender(RenderManager rm) {
-        //TODO: add render code
-    }
 }

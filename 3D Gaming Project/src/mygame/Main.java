@@ -1,5 +1,10 @@
-package mygame;
+/**
+ * Authors: Jitong Xian, Xinming Shen, Zichen Fu
+ * Main class of game. 
+ */
 
+
+package mygame;
 import com.jme3.app.SimpleApplication;
 import com.jme3.renderer.RenderManager;
 
@@ -17,17 +22,17 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
-        
+
     }
     
     @Override
     public void simpleUpdate(float tpf) {
-        //TODO: add update code
+
     }
 
     @Override
     public void simpleRender(RenderManager rm) {
-        //TODO: add render code
+
     }
     
     

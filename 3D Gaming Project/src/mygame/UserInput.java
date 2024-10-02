@@ -1,5 +1,9 @@
-package mygame;
+/**
+ * Authors: Jitong Xian, Xinming Shen, Zichen Fu
+ * User input class of game. 
+ */
 
+package mygame;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;

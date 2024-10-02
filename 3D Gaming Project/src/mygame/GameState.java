@@ -1,5 +1,9 @@
-package mygame;
+/**
+ * Authors: Jitong Xian, Xinming Shen, Zichen Fu
+ * Game state class of game. 
+ */
 
+package mygame;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
