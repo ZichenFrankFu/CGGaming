@@ -10,6 +10,11 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.input.KeyInput;
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.KeyTrigger;
+import com.jme3.ui.Picture;
+
 
 /**
  * This is the Main Class of your Game. You should only do initialization here.
@@ -119,24 +124,97 @@ public void simpleInitApp() {
     elevator.setMaterial(mat);
     */
     
-    // Adjust the camera movement speed
-    flyCam.setMoveSpeed(10); // Increase or decrease the value to adjust speed
+    // Constrain the camera to walk in the room
+    // Disable the default fly camera to implement custom walking
+    flyCam.setEnabled(true);
+    cam.setLocation(new Vector3f(0, 1.75f, 0)); // initialize camera position to be in the room
+    Vector3f direction = new Vector3f(0, -0.5f, -1);  // Looking forward along the negative Z-axis
+    Vector3f up = Vector3f.UNIT_Y;  // Y-axis is up
+    
+    // Set the camera's look direction
+    cam.lookAtDirection(direction, up);
+
+
+    // Set up custom key mappings for camera movement
+    inputManager.addMapping("MoveForward", new KeyTrigger(KeyInput.KEY_W));
+    inputManager.addMapping("MoveBackward", new KeyTrigger(KeyInput.KEY_S));
+    inputManager.addMapping("MoveLeft", new KeyTrigger(KeyInput.KEY_A));
+    inputManager.addMapping("MoveRight", new KeyTrigger(KeyInput.KEY_D));
+
+    // Add listener for key mappings
+    inputManager.addListener(actionListener, "MoveForward", "MoveBackward", "MoveLeft", "MoveRight");
+
+    // flyCam.setMoveSpeed(10); // Increase or decrease the value to adjust speed
+    
+    // UI icons
+    // To load the save/load icon in top left corner
+        Picture frame = new Picture("User interface frame");
+        frame.setImage(assetManager, "Interface/save.png", false); 
+        float iconWidth = 52; // this is arbitary
+        float iconHeight = 47;
+        frame.setWidth(iconWidth);
+        frame.setHeight(iconHeight);
+        frame.setPosition(5, settings.getHeight() - iconHeight - 9);
+        guiNode.attachChild(frame);
+        
+        Picture frame2 = new Picture("Button 2");
+        frame2.setImage(assetManager, "Interface/load.png", false);
+        frame2.setWidth(iconWidth);
+        frame2.setHeight(iconHeight);
+        frame2.setPosition(5 + iconWidth + 5, settings.getHeight() - iconHeight - 5);
+        guiNode.attachChild(frame2);
 }
 
-    @Override
-    public void simpleUpdate(float tpf) {
-        //TODO: add update code
-        // Get the current camera position
-        Vector3f camPos = cam.getLocation();
-        
-        // Clamp the camera position within the room boundaries
-        float clampedX = FastMath.clamp(camPos.x, roomMinBound.x, roomMaxBound.x);
-        float clampedY = FastMath.clamp(camPos.y, roomMinBound.y, roomMaxBound.y);
-        float clampedZ = FastMath.clamp(camPos.z, roomMinBound.z, roomMaxBound.z);
+private boolean forward = false, backward = false, left = false, right = false;
+private float walkSpeed = 5.0f; // Movement speed
+private float cameraHeight = 1.75f; // Fixed camera height for walking
 
-        // Set the camera's position to the clamped position
-        cam.setLocation(new Vector3f(clampedX, clampedY, clampedZ));
+private final ActionListener actionListener = new ActionListener() {
+    @Override
+    public void onAction(String name, boolean isPressed, float tpf) {
+        if (name.equals("MoveForward")) {
+            forward = isPressed;
+        } else if (name.equals("MoveBackward")) {
+            backward = isPressed;
+        } else if (name.equals("MoveLeft")) {
+            left = isPressed;
+        } else if (name.equals("MoveRight")) {
+            right = isPressed;
+        }
     }
+};
+
+
+@Override
+public void simpleUpdate(float tpf) {
+    // Create a vector for movement
+    Vector3f walkDirection = new Vector3f(0, 0, 0);
+
+    // Update direction based on the key inputs
+    if (forward) {
+        walkDirection.addLocal(cam.getDirection().mult(walkSpeed * tpf));
+    }
+    if (backward) {
+        walkDirection.addLocal(cam.getDirection().mult(-walkSpeed * tpf));
+    }
+    if (left) {
+        walkDirection.addLocal(cam.getLeft().mult(walkSpeed * tpf));
+    }
+    if (right) {
+        walkDirection.addLocal(cam.getLeft().mult(-walkSpeed * tpf));
+    }
+
+    // Get current camera position
+    Vector3f camPos = cam.getLocation();
+
+    // Apply movement only in the XZ plane and keep the camera height (Y-axis) fixed
+    camPos.addLocal(walkDirection.x, 0, walkDirection.z);
+    camPos.y = cameraHeight; // Ensure the camera stays at the walking height
+
+    // Optionally, clamp movement to room boundaries (if necessary)
+    cam.setLocation(camPos);
+}
+
 
     @Override
     public void simpleRender(RenderManager rm) {
