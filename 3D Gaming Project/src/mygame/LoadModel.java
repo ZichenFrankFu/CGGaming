@@ -14,6 +14,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.material.RenderState;
 import com.jme3.ui.Picture;
 
 
@@ -35,7 +36,7 @@ public class LoadModel extends SimpleApplication {
     }
                                 
     @Override
-public void simpleInitApp() {
+    public void simpleInitApp() {
     
     // Create a node for the classroom
     Node classroom = new Node("Classroom");
@@ -65,10 +66,14 @@ public void simpleInitApp() {
     // Load Poop
     Spatial poop = assetManager.loadModel("Models/Items/toiletpoop.j3o");
     poop.setName("Poop");
+    ObjectControl poopControl = new ObjectControl(3.0f);  // Adjust the speed if necessary
+    poop.addControl(poopControl);
     
     // Load Cake
     Spatial cake = assetManager.loadModel("Models/Items/CAFETERIAcake.j3o");
     cake.setName("Cake");
+    ObjectControl cakeControl = new ObjectControl(1.0f);  // Adjust the speed if necessary
+    cake.addControl(cakeControl);
     
     // Attach the walls and floor model to the classroom node
     classroom.attachChild(door);
@@ -101,8 +106,6 @@ public void simpleInitApp() {
     notificationText.setColor(ColorRGBA.Red);
     guiNode.attachChild(notificationText);
     
-    
-
     // Initialize the UserInput class with the notification text
     userInput = new UserInput(cam, inputManager, notificationText);
 
@@ -165,11 +168,10 @@ public void simpleInitApp() {
     // Enable FlyCam for rotation
     flyCam.setMoveSpeed(0);  // Disable FlyCam movement, we'll handle custom movement
 
-    // flyCam.setMoveSpeed(10); // Increase or decrease the value to adjust speed
-    
     // UI icons
     // To load the save/load icon in top left corner
     Picture frame = new Picture("User interface frame");
+    // Enable alpha blending for frame (save icon)
     frame.setImage(assetManager, "Interface/save.png", false); 
     float iconWidth = 52; // this is arbitary
     float iconHeight = 47;
@@ -177,13 +179,17 @@ public void simpleInitApp() {
     frame.setHeight(iconHeight);
     frame.setPosition(5, settings.getHeight() - iconHeight - 9);
     guiNode.attachChild(frame);
+    
+    frame.getMaterial().getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
 
     Picture frame2 = new Picture("Button 2");
     frame2.setImage(assetManager, "Interface/load.png", false);
     frame2.setWidth(iconWidth);
     frame2.setHeight(iconHeight);
-    frame2.setPosition(5 + iconWidth + 5, settings.getHeight() - iconHeight - 5);
+    frame2.setPosition(iconWidth + 10, settings.getHeight() - iconHeight - 5);
     guiNode.attachChild(frame2);
+    
+    frame2.getMaterial().getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
 }
 
     // Method to create a point-based crosshair
@@ -201,9 +207,11 @@ public void simpleInitApp() {
         // Attach the crosshair to the GUI node so it stays in the HUD
         guiNode.attachChild(crosshair);
     }
-
-
-
+    
+    public void setLighting() {
+    
+        
+    }
     @Override
     public void simpleUpdate(float tpf) {
         userInput.updateCamera(tpf);
