@@ -73,4 +73,16 @@ One special design of our game is that everytime the player has passed or cleare
 
 ### **Development**
 **First Deliverable.**
-As a minimum proof of concept, we first focus on designing only the elevator room and the main room. Procedural generation may be added later. 
+<span style="color: red;">Scenes</span>
+As a minimum proof of concept, we created scenes for only the elevator room and the first room (a classroom). Other room scenes may be added later. 
+
+*Inside the Elevator Room*
+<img width="796" alt="Screenshot 2024-10-01 at 20 47 00" src="https://github.com/user-attachments/assets/61336026-0cbc-4541-b330-3db367b2d933">
+
+*Inside the Classroom*
+<img width="806" alt="Screenshot 2024-10-01 at 20 43 30" src="https://github.com/user-attachments/assets/3f4aac38-2aee-44cc-a843-54aed0cd4464">
+
+<span style="color: red;">User Interactions</span>
+1. Press shift for increasing movement speed.
+2. Use left mouse to pick up items. 
+
