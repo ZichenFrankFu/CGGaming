@@ -73,7 +73,7 @@ One special design of our game is that everytime the player has passed or cleare
 
 ### **Development**
 **First Deliverable.**
-###Scenes
+**Scenes**
 As a minimum proof of concept, we created scenes for only the elevator room and the first room (a classroom). Other room scenes may be added later. 
 
 *Inside the Elevator Room*
@@ -82,7 +82,7 @@ As a minimum proof of concept, we created scenes for only the elevator room and 
 *Inside the Classroom*
 <img width="806" alt="Screenshot 2024-10-01 at 20 43 30" src="https://github.com/user-attachments/assets/3f4aac38-2aee-44cc-a843-54aed0cd4464">
 
-###User Interactions
+**User Interactions**
 1. Press shift for increasing movement speed.
 2. Use left mouse to pick up items. 
 
