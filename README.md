@@ -80,13 +80,16 @@ One special design of our game is that everytime the player has passed or cleare
 As a minimum proof of concept, we created scenes for only the elevator room and the first room (a classroom). Other room scenes may be added later. 
 
 *Inside the Elevator Room*
+
 <img width="796" alt="Screenshot 2024-10-01 at 20 47 00" src="https://github.com/user-attachments/assets/61336026-0cbc-4541-b330-3db367b2d933">
 
 *Inside the Classroom*
+
 <img width="806" alt="Screenshot 2024-10-01 at 20 43 30" src="https://github.com/user-attachments/assets/3f4aac38-2aee-44cc-a843-54aed0cd4464">
 
 **User Interactions**
 Users are now able to
 1. Press shift for increasing movement speed.
 2. Press f to pick up items. (Example: poop / cake)
+
 <img width="793" alt="Screenshot 2024-10-02 at 08 07 21" src="https://github.com/user-attachments/assets/76604d80-92ba-498a-b185-86bc6958d123">
