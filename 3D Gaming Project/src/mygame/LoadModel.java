@@ -38,31 +38,39 @@ public void simpleInitApp() {
     Node classroom = new Node("Classroom");
 
     // Load the classroom demo scene model
-    Spatial classroomDemo = assetManager.loadModel("Models/classroom_demoscene.j3o");
+    Spatial classroomDemo = assetManager.loadModel("Models/Classroom/classroom_demoscene.j3o");
     
     // Attach the classroom demo model to the classroom node
     classroom.attachChild(classroomDemo);
     
     // Load the walls and floor model
-    Spatial wallsfloor = assetManager.loadModel("Models/CAFETERIAwallfloor.j3o");
+    Spatial wallsfloor = assetManager.loadModel("Models/Classroom/CAFETERIAwallfloor.j3o");
     
     // Load the walldoor model
-    Spatial walldoor = assetManager.loadModel("Models/walldoor_001.j3o");
+    Spatial walldoor = assetManager.loadModel("Models/Door/walldoor_001.j3o");
     classroom.attachChild(walldoor);
     Node walldoorNode = (Node) walldoor;
     
     // Load the door model
-    Spatial door = assetManager.loadModel("Models/door.j3o");
+    Spatial door = assetManager.loadModel("Models/Door/door.j3o");
     
     // Load Elevator Model
-    Spatial elevator = assetManager.loadModel("Models/Elevator.j3o");
+    Spatial elevator = assetManager.loadModel("Models/Elevator/Elevator.j3o");
     Node elevatorNode = (Node) elevator;
-    Spatial elevatorDoor = assetManager.loadModel("Models/ElevatorDoors.j3o");
+    Spatial elevatorDoor = assetManager.loadModel("Models/Elevator/ElevatorDoors.j3o");
+    
+    // Load Poop
+    Spatial poop = assetManager.loadModel("Models/Items/toiletpoop.j3o");
+    
+    // Load Cake
+    Spatial cake = assetManager.loadModel("Models/Items/CAFETERIAcake.j3o");
     
     // Attach the walls and floor model to the classroom node
     classroom.attachChild(door);
     classroom.attachChild(wallsfloor);
     classroom.attachChild(walldoor);
+    classroom.attachChild(poop);
+    classroom.attachChild(cake);
     walldoorNode.attachChild(door);
     walldoorNode.attachChild(elevator);
     walldoorNode.attachChild(elevatorDoor);
@@ -78,6 +86,8 @@ public void simpleInitApp() {
     walldoorNode.setLocalScale(1.1f);
     elevatorNode.setLocalTranslation(0, 0, -3);
     elevatorDoor.setLocalTranslation(0, -3, -3);
+    cake.setLocalTranslation(0, 0.1f, -1);
+    cake.setLocalScale(2.0f);
     
     // Set up the lighting
     
@@ -85,7 +95,6 @@ public void simpleInitApp() {
     sun.setDirection(new Vector3f(0, -1, 0));
     sun.setColor(ColorRGBA.White);
     rootNode.addLight(sun);
-
     
     DirectionalLight newSun = new DirectionalLight();
     newSun.setDirection(new Vector3f(1, 1, 1));
