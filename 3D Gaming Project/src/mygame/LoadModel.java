@@ -107,15 +107,15 @@ public class LoadModel extends SimpleApplication {
     notificationText.setColor(ColorRGBA.Red);
     guiNode.attachChild(notificationText);
     
-    gameState = new GameState(cam, inputManager);
+    gameState = new GameState(cam, inputManager, notificationText);
     stateManager.attach(gameState);
     
     // Initialize the UserInput class with the notification text
     userInput = new UserInput(cam, inputManager, gameState, notificationText);
 
     // Add items to the pickable list
-    userInput.addPickableItem(poop);
-    userInput.addPickableItem(cake);
+    gameState.addPickableItem(poop);
+    gameState.addPickableItem(cake);
     
     // Create and add a crosshair (point) in the center of the screen
     createCrosshair();

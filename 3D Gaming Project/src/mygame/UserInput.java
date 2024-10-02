@@ -57,39 +57,6 @@ public class UserInput {
         inputManager.addListener(actionListener, "MoveForward", "MoveBackward", "MoveLeft", "MoveRight", "SpeedUp", "PickUp");
     }
 
-    // Method to allow adding pickable items to the list
-    public void addPickableItem(Spatial item) {
-        pickableItems.add(item);
-    }
-
-    // Raycasting to check if the player is aiming at a pickable item
-    private void checkAimedItem() {
-        // Cast a ray from the camera forward
-        Ray ray = new Ray(cam.getLocation(), cam.getDirection());
-        CollisionResults results = new CollisionResults();
-
-        aimedItem = null; // Reset aimed item
-
-        // Check all pickable items for a hit
-        for (Spatial item : pickableItems) {
-            if (item != null) {
-                item.collideWith(ray, results);
-                if (results.size() > 0) {
-                    aimedItem = item; // If a collision is detected, set it as aimed item
-                    break;
-                }
-            }
-        }
-
-        // If an item is aimed at, show the notification
-        if (aimedItem != null) {
-            notificationText.setText(""); // Clear existing text
-            notificationText.setText("Press 'F' to pick up " + aimedItem.getName());
-            notificationText.setLocalTranslation(cam.getWidth() / 2 - notificationText.getLineWidth() / 2, cam.getHeight() / 2 + 20, 0);
-        } else {
-            notificationText.setText(""); // No item aimed, clear notification
-        }
-    }
 
     // Method to handle picking up items
     private void pickUpItem() {
@@ -118,7 +85,7 @@ public class UserInput {
             } else if (name.equals("SpeedUp")) {
                 speedBoost = isPressed;
             } else if (name.equals("PickUp") && isPressed) {
-                pickUpItem(); // Pick up the aimed item
+                gameState.pickUpItem(); // Delegate pick-up action to GameState
             }
             
             // Update the movement keys in GameState
@@ -158,8 +125,6 @@ public class UserInput {
         // Set the new camera position
         cam.setLocation(camPos);
 
-        // Check if the player is aiming at any pickable item
-        checkAimedItem();
     }
     
     
