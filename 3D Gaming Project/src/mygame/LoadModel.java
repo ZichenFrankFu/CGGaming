@@ -1,6 +1,7 @@
 package mygame;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.font.BitmapText;
 import com.jme3.light.DirectionalLight;
 //import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -24,6 +25,8 @@ import com.jme3.ui.Picture;
 public class LoadModel extends SimpleApplication {
     
     private UserInput userInput;
+    private BitmapText notificationText;
+    private BitmapText crosshair;
 
 
     public static void main(String[] args) {
@@ -61,9 +64,11 @@ public void simpleInitApp() {
     
     // Load Poop
     Spatial poop = assetManager.loadModel("Models/Items/toiletpoop.j3o");
+    poop.setName("Poop");
     
     // Load Cake
     Spatial cake = assetManager.loadModel("Models/Items/CAFETERIAcake.j3o");
+    cake.setName("Cake");
     
     // Attach the walls and floor model to the classroom node
     classroom.attachChild(door);
@@ -88,6 +93,25 @@ public void simpleInitApp() {
     elevatorDoor.setLocalTranslation(0, -3, -3);
     cake.setLocalTranslation(0, 0.1f, -1);
     cake.setLocalScale(2.0f);
+    
+    // Initialize the HUD text for showing item notifications
+    notificationText = new BitmapText(guiFont, false);
+    notificationText.setSize(guiFont.getCharSet().getRenderedSize());
+    notificationText.setText("Press F to interact");
+    notificationText.setColor(ColorRGBA.Red);
+    guiNode.attachChild(notificationText);
+    
+    
+
+    // Initialize the UserInput class with the notification text
+    userInput = new UserInput(cam, inputManager, notificationText);
+
+    // Add items to the pickable list
+    userInput.addPickableItem(poop);
+    userInput.addPickableItem(cake);
+    
+    // Create and add a crosshair (point) in the center of the screen
+    createCrosshair();
     
     // Set up the lighting
     
@@ -141,9 +165,6 @@ public void simpleInitApp() {
     // Enable FlyCam for rotation
     flyCam.setMoveSpeed(0);  // Disable FlyCam movement, we'll handle custom movement
 
-    // Initialize the UserInput class and pass the camera and input manager
-    userInput = new UserInput(cam, inputManager);
-
     // flyCam.setMoveSpeed(10); // Increase or decrease the value to adjust speed
     
     // UI icons
@@ -164,6 +185,22 @@ public void simpleInitApp() {
     frame2.setPosition(5 + iconWidth + 5, settings.getHeight() - iconHeight - 5);
     guiNode.attachChild(frame2);
 }
+
+    // Method to create a point-based crosshair
+    private void createCrosshair() {
+        crosshair = new BitmapText(guiFont, false);
+        crosshair.setSize(guiFont.getCharSet().getRenderedSize()); // Set size to the font size
+        crosshair.setText("+"); // This is the crosshair (you can use "." for a dot as well)
+        crosshair.setColor(ColorRGBA.White); // Set the crosshair color to white or another color
+
+        // Calculate the center of the screen and adjust for the crosshair size
+        float x = (cam.getWidth() / 2) - (crosshair.getLineWidth() / 2);
+        float y = (cam.getHeight() / 2) + (crosshair.getLineHeight() / 2);
+        crosshair.setLocalTranslation(x, y, 0); // Set the position of the crosshair
+
+        // Attach the crosshair to the GUI node so it stays in the HUD
+        guiNode.attachChild(crosshair);
+    }
 
 
 
