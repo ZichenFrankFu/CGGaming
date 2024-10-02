@@ -17,6 +17,11 @@ import com.jme3.scene.Spatial;
  * @author normenhansen
  */
 public class LoadModel extends SimpleApplication {
+    
+    // Define room boundaries (adjust based on your room model's dimensions)
+    private Vector3f roomMinBound = new Vector3f(-10f, 0f, -10f); // Min corner of the room
+    private Vector3f roomMaxBound = new Vector3f(10f, 5f, 10f);   // Max corner of the room
+
 
     public static void main(String[] args) {
         LoadModel app = new LoadModel();
@@ -121,6 +126,16 @@ public void simpleInitApp() {
     @Override
     public void simpleUpdate(float tpf) {
         //TODO: add update code
+        // Get the current camera position
+        Vector3f camPos = cam.getLocation();
+        
+        // Clamp the camera position within the room boundaries
+        float clampedX = FastMath.clamp(camPos.x, roomMinBound.x, roomMaxBound.x);
+        float clampedY = FastMath.clamp(camPos.y, roomMinBound.y, roomMaxBound.y);
+        float clampedZ = FastMath.clamp(camPos.z, roomMinBound.z, roomMaxBound.z);
+
+        // Set the camera's position to the clamped position
+        cam.setLocation(new Vector3f(clampedX, clampedY, clampedZ));
     }
 
     @Override
