@@ -36,12 +36,25 @@ public class GameState extends AbstractAppState {
     private float currentSpeed = normalSpeed; // The current movement speed
     private float cameraHeight = 1.75f;  // Fixed camera height for walking
 
+    /**
+     * Constructor for initializing UserInput, camera, input manager, 
+     * game state, and notification text.
+     * 
+     * @param cam The camera. 
+     * @param inputManager The inputmanager that manages user inputs.
+     * @param notificationText The text to notify the player about pick-ups.
+     */
     public GameState(Camera cam, InputManager inputManager, BitmapText notificationText) {
         this.cam = cam;
         this.inputManager = inputManager;
         this.notificationText = notificationText;
     }
-
+    
+    /**
+     * Updates the game state, handling player movement and item interaction.
+     * 
+     * @param tpf Time per frame. 
+     */
     @Override
     public void update(float tpf) {
         // Set the current speed depending on whether Shift is pressed
@@ -78,6 +91,15 @@ public class GameState extends AbstractAppState {
         checkAimedItem();
     }
 
+    /**
+     * Sets the current movement of players.
+     * 
+     * @param forward True if the player is moving forward, false otherwise.
+     * @param backward True if the player is moving backward, false otherwise.
+     * @param left True if the player is moving left, false otherwise.
+     * @param right True if the player is moving right, false otherwise.
+     * @param speedBoost True if the player is holding Shift, false otherwise.
+     */
     public void setMovementKeys(boolean forward, boolean backward, boolean left, boolean right, boolean speedBoost) {
         this.forward = forward;
         this.backward = backward;
@@ -86,12 +108,18 @@ public class GameState extends AbstractAppState {
         this.speedBoost = speedBoost;
     }
     
-        // Method to allow adding pickable items to the list
+    /**
+     * Adds a pickable item to the list of pickable items. 
+     * 
+     * @param item The spatial object representing the pickable item.
+     */
     public void addPickableItem(Spatial item) {
         pickableItems.add(item);
     }
     
-    // Method to detect and pick up an item
+    /**
+     * Method to detect and pick up an item. 
+     */
     public void pickUpItem() {
         if (aimedItem != null) {
             aimedItem.removeFromParent(); // Remove the item from the scene
@@ -101,7 +129,9 @@ public class GameState extends AbstractAppState {
         }
     }
 
-    // Raycasting to check if the player is aiming at a pickable item
+    /**
+     * Raycasting to check if the player is aiming at a pickable item
+     */
     private void checkAimedItem() {
         // Cast a ray from the camera forward
         Ray ray = new Ray(cam.getLocation(), cam.getDirection());
@@ -130,14 +160,22 @@ public class GameState extends AbstractAppState {
         }
     }
 
+    /**
+     * Initializes the game state. 
+     * 
+     * @param stateManager The state manager handling app states.
+     * @param app The application instance.
+     */
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         // Initialization code here
     }
 
+    /**
+     * Cleans up the game state. 
+     */
     @Override
     public void cleanup() {
-        // Cleanup code here
     }
     
 }

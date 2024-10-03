@@ -35,7 +35,10 @@ public class LoadModel extends SimpleApplication {
         LoadModel app = new LoadModel();
         app.start();
     }
-                                
+    
+    /**
+     * Initializes the game scene including models, lights, input handling, and interaction. 
+     */                            
     @Override
     public void simpleInitApp() {
     
@@ -67,13 +70,13 @@ public class LoadModel extends SimpleApplication {
     // Load Poop
     Spatial poop = assetManager.loadModel("Models/Items/toiletpoop.j3o");
     poop.setName("Poop");
-    ObjectControl poopControl = new ObjectControl(3.0f);  // Adjust the speed if necessary
+    ObjectControl poopControl = new ObjectControl(3.0f);
     poop.addControl(poopControl);
     
     // Load Cake
     Spatial cake = assetManager.loadModel("Models/Items/CAFETERIAcake.j3o");
     cake.setName("Cake");
-    ObjectControl cakeControl = new ObjectControl(1.0f);  // Adjust the speed if necessary
+    ObjectControl cakeControl = new ObjectControl(1.0f);
     cake.addControl(cakeControl);
     
     // Attach the walls and floor model to the classroom node
@@ -196,7 +199,9 @@ public class LoadModel extends SimpleApplication {
     frame2.getMaterial().getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
 }
 
-    // Method to create a point-based crosshair
+    /**
+     * Method to create a point-based crosshair and adds it to the GUI node. 
+     */
     private void createCrosshair() {
         crosshair = new BitmapText(guiFont, false);
         crosshair.setSize(guiFont.getCharSet().getRenderedSize()); // Set size to the font size

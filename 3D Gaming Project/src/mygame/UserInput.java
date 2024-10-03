@@ -32,7 +32,16 @@ public class UserInput {
     private float fastSpeed = 10.0f;   // Speed when Shift is held down
     private float currentSpeed = normalSpeed; // The current movement speed
     private float cameraHeight = 1.75f;  // Fixed camera height for walking
-
+    
+    /**
+     * Constructor for initializing UserInput, camera, input manager, 
+     * game state, and notification text.
+     * 
+     * @param cam The camera. 
+     * @param inputManager The inputmanager that manages user inputs.
+     * @param gameState The game state object that manages movement and item interaction.
+     * @param notificationText The text to notify the player about pick-ups.
+     */
     public UserInput(Camera cam, InputManager inputManager, GameState gameState, BitmapText notificationText) {
         this.cam = cam;
         this.inputManager = inputManager;
@@ -41,7 +50,11 @@ public class UserInput {
         this.pickableItems = new ArrayList<>(); // Initialize list of pickable items
         initializeInput();
     }
-
+    
+    /**
+     * Initializes the input mappings for player controls, such as movement (WASD keys), 
+     * speed boost (Shift key), and item pick-up (F key). 
+     */
     private void initializeInput() {
         // Set up key mappings for movement and speed boost
         inputManager.addMapping("MoveForward", new KeyTrigger(KeyInput.KEY_W));
@@ -58,7 +71,10 @@ public class UserInput {
     }
 
 
-    // Method to handle picking up items
+    /**
+     * Allow players pick up items in the game. If the player is aiming at 
+     * an item, this method removes the item from the scene and from the list of pickable items.
+     */
     private void pickUpItem() {
         if (aimedItem != null) {
             // Pick up the aimed item (remove from scene and list)
@@ -70,7 +86,9 @@ public class UserInput {
         }
     }
 
-    // ActionListener to handle input
+    /**
+     * ActionListener that listens for key inputs and updates accordingly.
+     */
     private final ActionListener actionListener = new ActionListener() {
         @Override
         public void onAction(String name, boolean isPressed, float tpf) {
@@ -93,7 +111,12 @@ public class UserInput {
         }
     };
 
-    // Method to update the camera position and check for aimed items
+    /**
+     * Updates the camera's position based on player input. The camera also stays 
+     * at a fixed height to simulate walking on a floor.
+     * 
+     * @param tpf Time per frame, used to ensure smooth movement regardless of frame rate.
+     */
     public void updateCamera(float tpf) {
         // Set the current speed depending on whether Shift is pressed
         currentSpeed = speedBoost ? fastSpeed : normalSpeed;
@@ -118,7 +141,7 @@ public class UserInput {
         // Get the current camera position
         Vector3f camPos = cam.getLocation();
 
-        // Apply movement only in the XZ plane and keep the camera height (Y-axis) fixed
+        // Apply movement only in the XZ plane and keep the camera height (y-axis) fixed
         camPos.addLocal(walkDirection.x, 0, walkDirection.z);
         camPos.y = cameraHeight; // Ensure the camera stays at the walking height
 
