@@ -77,7 +77,10 @@ One special design of our game is that everytime the player has passed or cleare
 
 **Scenes**
 
-As a minimum proof of concept, we created scenes for only the elevator room and the first room (a classroom). Other room scenes may be added later. 
+**Scene Graph and Grouping**
+
+As a minimum proof of concept, we created scenes for only the elevator room and one classroom. We have attached models such as door, wallsfloor, and elevator to the classroom node. We also transformed the wall in our scene to align it with the classroom. The grouping allows efficient transformations and updates within the scene. After this, any further transformation applied to the classroom node will affect all attached child nodes.
+Other room scenes will be added later. 
 
 *Inside the Elevator Room*
 
@@ -90,8 +93,16 @@ As a minimum proof of concept, we created scenes for only the elevator room and 
 
 
 **User Interactions**
-Users are now able to
-1. Press shift for increasing movement speed.
-2. Press f to pick up items. (Example: poop / cake, which are rotating in game)
+We added 2 new interaction mechanics for the game. Players are now able to:
+
+1. Movement Control: Players can press Shift key to temporarily increase their movement speed through the game world.
+
+2. Item Pick-Up: Players can now press the 'F' key to pick up interactive objects (e.g., poop or cake). These objects can be collected from the environment when aimed at by the player's camera. Upon successfully picking up an item, it will be removed from the scene, and a notification "Press 'F' to pick up [the object]" will inform the player of the pick-up.
 
 <img width="793" alt="Screenshot 2024-10-02 at 08 07 21" src="https://github.com/user-attachments/assets/76604d80-92ba-498a-b185-86bc6958d123">
+
+
+**Extending AbstractControl and AbstractAppState**
+
+We extended AbstractAppState in the GameState class to control the overall state of the game, including player movement, interactions, and printing statements.
+We extended AbstractControl in the ObjectControl class, which defines the behavior for rotating items like the cake in the scene. 
