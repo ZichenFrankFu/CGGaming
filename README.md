@@ -92,6 +92,6 @@ As a minimum proof of concept, we created scenes for only the elevator room and 
 **User Interactions**
 Users are now able to
 1. Press shift for increasing movement speed.
-2. Press f to pick up items. (Example: poop / cake)
+2. Press f to pick up items. (Example: poop / cake, which are rotating in game)
 
 <img width="793" alt="Screenshot 2024-10-02 at 08 07 21" src="https://github.com/user-attachments/assets/76604d80-92ba-498a-b185-86bc6958d123">
