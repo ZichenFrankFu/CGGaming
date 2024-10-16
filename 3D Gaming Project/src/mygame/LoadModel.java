@@ -42,6 +42,11 @@ public class LoadModel extends SimpleApplication {
     @Override
     public void simpleInitApp() {
     
+    
+    //Spatial test_classroom = assetManager.loadModel("Models/anime_class_room/scene.gltf");
+    //rootNode.attachChild(test_classroom);
+
+    
     // Create a node for the classroom
     Node classroom = new Node("Classroom");
 
@@ -119,6 +124,7 @@ public class LoadModel extends SimpleApplication {
     // Add items to the pickable list
     gameState.addPickableItem(poop);
     gameState.addPickableItem(cake);
+    
     
     // Create and add a crosshair (point) in the center of the screen
     createCrosshair();
