@@ -5,6 +5,7 @@
 
 package mygame;
 import com.jme3.app.SimpleApplication;
+import com.jme3.bounding.BoundingVolume;
 import com.jme3.font.BitmapText;
 import com.jme3.light.DirectionalLight;
 //import com.jme3.material.Material;
@@ -84,6 +85,14 @@ public class LoadModel extends SimpleApplication {
     ObjectControl cakeControl = new ObjectControl(1.0f);
     cake.addControl(cakeControl);
     
+    // load Angel
+    Spatial angel = assetManager.loadModel("Models/Angel/scene.gltf");
+    classroom.attachChild(angel);
+    angel.setLocalScale(100f); 
+    angel.setName("angel");
+    ObjectControl angelControl = new ObjectControl(1.0f);
+    angel.addControl(angelControl);
+
     // Attach the walls and floor model to the classroom node
     classroom.attachChild(door);
     classroom.attachChild(wallsfloor);
