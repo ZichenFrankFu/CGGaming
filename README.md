@@ -138,4 +138,8 @@ We introduced a monster in the classroom scene that chases the player for 2 tpf 
 We have 2 gui designed and loaded, as displayed in the top left corner. The 'save' GUI symbolizes a folder with blood, becasue every save is achieved by several dying. 'load' looks like a small monster in a pocket
 We've implemented two GUIs, which are displayed in the top left corner of the screen. The "save" GUI is stylized as a folder dripping with blood, symbolizing the sacrifices made in achieving each save. The "load" GUI is represented by a small monster in a pocket, hinting at the mysterious and potentially perilous nature of loading a saved game.
 
+*AmbientLight*
+We combined AmbientLight and DirectionalLight to set up lighting. The AmbientLight provides a base level of illumination, preventing objects from appearing completely dark. The DirectionalLight simulates sunlight, casting shadows and creating depth in the scene. The direction is decided through experiments. We also experimented with different light colors and intensities to fine-tune the overall lighting effect. 
+Additionally, we considered using PointLight or SpotLight to highlight specific areas or objects, but we found that the combination of AmbientLight and DirectionalLight was sufficient for the current scene, as in a horror game they are supposed to be dim.
+
 
