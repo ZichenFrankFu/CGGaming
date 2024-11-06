@@ -173,16 +173,37 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
         // Load the blackhole scene
         Node blackholeScene = new Node("Blackhole Scene");
         Spatial blackhole = assetManager.loadModel("Models/Blackhole/scene.j3o");
+        blackhole.setLocalScale(9.0f);
+        blackhole.setLocalTranslation(0,0,-40.0f);
         blackholeScene.attachChild(blackhole);
         sceneManager.addScene(blackholeScene);
         
-        // Load Angel
+        // load Angel
         Spatial angel = assetManager.loadModel("Models/Angel/scene.gltf");
         blackholeScene.attachChild(angel);
-        angel.setLocalScale(100f); 
+        angel.setLocalTranslation(0,0,-5.0f);
+        angel.setLocalScale(90f); 
         angel.setName("angel");
-        ObjectControl angelControl = new ObjectControl(1.0f);
-        angel.addControl(angelControl);
+        //ObjectControl angelControl = new ObjectControl(1.0f);
+        //angel.addControl(angelControl);
+        
+        // Add delicate ambient lighting to ensure the blackhole is visible without being harsh
+        AmbientLight ambient = new AmbientLight();
+        ambient.setColor(ColorRGBA.White.mult(0.02f)); // Very soft ambient light to create a subtle background glow
+        angel.addLight(ambient);
+
+        // Add directional light to simulate a subtle atmospheric glow
+        DirectionalLight glow = new DirectionalLight();
+        glow.setDirection(new Vector3f(-0.5f, -1, -0.5f));
+        glow.setColor(new ColorRGBA(0.5f, 0.4f, 0.3f, 1.0f).mult(0.2f)); // Duller light to make the model appear less bright
+        angel.addLight(glow);
+
+        // Add a point light to simulate the glowing effect surrounding the blackhole
+        PointLight glowEffect = new PointLight();
+        glowEffect.setPosition(new Vector3f(0, 0, -5));
+        glowEffect.setColor(new ColorRGBA(0.7f, 0.5f, 0.3f, 1.0f).mult(0.3f)); // Soft, warmer light to reduce brightness
+        glowEffect.setRadius(10f); // Adjust radius to control the spread of the glow
+        angel.addLight(glowEffect);
 
         // Load and scale the player model
         player = (Node) assetManager.loadModel("Models/monster_classroom/Jaime.j3o");
