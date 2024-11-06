@@ -87,6 +87,7 @@ Other room scenes will be added later.
 
 
 *Inside the Classroom*
+
 <img width="806" alt="Classroom" src="https://github.com/user-attachments/assets/bba5912a-6929-49a5-8522-8a463c839c49">
 
 
