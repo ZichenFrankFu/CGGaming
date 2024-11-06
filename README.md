@@ -128,6 +128,7 @@ Models
 
 
 *Animated Scene*
+
 We introduced a monster in the classroom scene that chases the player for 2 tpf before pausing and changing direction for 1 tpf while facing the camera to create a sense of horror (maybe?). It's important to note that this is a temporary model for the monster.
 <img width="806" alt="Classroom" src="https://github.com/user-attachments/assets/59fe3fad-af9d-4ce0-bede-0ca4edd70a64">
 
