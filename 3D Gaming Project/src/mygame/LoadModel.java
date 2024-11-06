@@ -137,18 +137,29 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
 
         DirectionalLight classroomLight = new DirectionalLight();
         classroomLight.setDirection(new Vector3f(1, -1, 0));
-        classroomLight.setColor(ColorRGBA.Gray.mult(0.8f));
-        classroomScene.addLight(classroomLight);
+        classroomLight.setColor(ColorRGBA.White.mult(1.5f));
+        classroom.addLight(classroomLight);
 
         DirectionalLight classroomLight2 = new DirectionalLight();
         classroomLight2.setDirection(new Vector3f(-1, -1, 0));
-        classroomLight2.setColor(ColorRGBA.Gray.mult(0.8f));
-        classroomScene.addLight(classroomLight2);
+        classroomLight2.setColor(ColorRGBA.White.mult(1.5f));
+        classroom.addLight(classroomLight2);
 
         DirectionalLight classroomLight3 = new DirectionalLight();
         classroomLight3.setDirection(new Vector3f(0, -1, 1));
-        classroomLight3.setColor(ColorRGBA.Gray.mult(0.8f));
-        classroomScene.addLight(classroomLight3);
+        classroomLight3.setColor(ColorRGBA.White.mult(1.5f));
+        classroom.addLight(classroomLight3);
+        
+
+        DirectionalLight mainLightClassroom = new DirectionalLight();
+        mainLightClassroom.setDirection(new Vector3f(-1, -1, -1).normalizeLocal());
+        mainLightClassroom.setColor(ColorRGBA.White.mult(2.0f)); // Brighter white light
+        classroom.addLight(mainLightClassroom);
+
+        AmbientLight ambientLightClassroom = new AmbientLight();
+        ambientLightClassroom.setColor(ColorRGBA.White.mult(1.0f)); // Bright ambient light to fill shadows
+        classroom.addLight(ambientLightClassroom);
+
 
         // Initialize the HUD text for showing item notifications
         notificationText = new BitmapText(guiFont, false);
@@ -177,6 +188,7 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
         blackhole.setLocalTranslation(0,0,-40.0f);
         blackholeScene.attachChild(blackhole);
         sceneManager.addScene(blackholeScene);
+
         
         // load Angel
         Spatial angel = assetManager.loadModel("Models/Angel/scene.gltf");
@@ -189,28 +201,28 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
         
         // Add delicate ambient lighting to ensure the blackhole is visible without being harsh
         AmbientLight ambient = new AmbientLight();
-        ambient.setColor(ColorRGBA.White.mult(0.02f)); // Very soft ambient light to create a subtle background glow
-        angel.addLight(ambient);
+        ambient.setColor(ColorRGBA.White.mult(1.2f)); // Very soft ambient light to create a subtle background glow
+        blackholeScene.addLight(ambient);
 
         // Add directional light to simulate a subtle atmospheric glow
         DirectionalLight glow = new DirectionalLight();
         glow.setDirection(new Vector3f(-0.5f, -1, -0.5f));
         glow.setColor(new ColorRGBA(0.5f, 0.4f, 0.3f, 1.0f).mult(0.2f)); // Duller light to make the model appear less bright
-        angel.addLight(glow);
+        blackholeScene.addLight(glow);
 
         // Add a point light to simulate the glowing effect surrounding the blackhole
         PointLight glowEffect = new PointLight();
         glowEffect.setPosition(new Vector3f(0, 0, -5));
         glowEffect.setColor(new ColorRGBA(0.7f, 0.5f, 0.3f, 1.0f).mult(0.3f)); // Soft, warmer light to reduce brightness
         glowEffect.setRadius(10f); // Adjust radius to control the spread of the glow
-        angel.addLight(glowEffect);
+        blackholeScene.addLight(glowEffect);
 
         // Load and scale the player model
         player = (Node) assetManager.loadModel("Models/monster_classroom/Jaime.j3o");
         player.rotate(0, FastMath.DEG_TO_RAD * 180, 0);
         player.setLocalScale(4f);
         player.setLocalTranslation(0, -1.75f, 0);
-        rootNode.attachChild(player);
+        classroomScene.attachChild(player);
 
         control = player.getControl(AnimControl.class);
         if (control != null) {
@@ -351,6 +363,7 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
                 player.move(walkDirection.mult(tpf));
                 if (!channel.getAnimationName().equals(ANI_WALK)) {
                     channel.setAnim(ANI_WALK);
+                    channel.setSpeed(10.0f);
                 }
             }
         } else {
