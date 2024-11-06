@@ -40,8 +40,9 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
     private BitmapText crosshair;
     private GameState gameState;
     private SceneSwitchingManager sceneManager;
+    private PhysicsHandler physicsHandler;
     
-    private Node player;
+    private Node BloodyMonkey;
     private AnimControl control;
     private AnimChannel channel;
 
@@ -220,14 +221,14 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
         glowEffect.setRadius(10f); // Adjust radius to control the spread of the glow
         blackholeScene.addLight(glowEffect);
 
-        // Load and scale the player model
-        player = (Node) assetManager.loadModel("Models/monster_classroom/Jaime.j3o");
-        player.rotate(0, FastMath.DEG_TO_RAD * 180, 0);
-        player.setLocalScale(4f);
-        player.setLocalTranslation(0, -1.75f, 0);
-        classroomScene.attachChild(player);
+        // Load and scale the BloodyMonkey model
+        BloodyMonkey = (Node) assetManager.loadModel("Models/monster_classroom/Jaime.j3o");
+        BloodyMonkey.rotate(0, FastMath.DEG_TO_RAD * 180, 0);
+        BloodyMonkey.setLocalScale(4f);
+        BloodyMonkey.setLocalTranslation(0, -1.75f, 0);
+        classroomScene.attachChild(BloodyMonkey);
 
-        control = player.getControl(AnimControl.class);
+        control = BloodyMonkey.getControl(AnimControl.class);
         if (control != null) {
             for (String anim : control.getAnimationNames()) {
                 System.out.println(anim);  // Print available animations
@@ -241,12 +242,12 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
         cam.setLocation(new Vector3f(0, 1.75f, 0)); 
         cam.lookAtDirection(new Vector3f(0, 0, -1), Vector3f.UNIT_Y);
         
-        //Load materials onto player model
-        Material playerMaterial = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
-        TextureKey playerTextureKey = new TextureKey("Textures/blood.png", true); 
-        Texture playerTexture = assetManager.loadTexture(playerTextureKey);
-        playerMaterial.setTexture("DiffuseMap", playerTexture);
-        player.setMaterial(playerMaterial);
+        //Load materials onto BloodyMonkey model
+        Material BloodyMonkeyMaterial = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
+        TextureKey BloodyMonkeyTextureKey = new TextureKey("Textures/blood.png", true); 
+        Texture BloodyMonkeyTexture = assetManager.loadTexture(BloodyMonkeyTextureKey);
+        BloodyMonkeyMaterial.setTexture("DiffuseMap", BloodyMonkeyTexture);
+        BloodyMonkey.setMaterial(BloodyMonkeyMaterial);
         
         //User Interface
         Picture frame = new Picture("User interface frame");
@@ -305,7 +306,7 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
     private AnalogListener analogListener = new AnalogListener() {
         public void onAnalog(String name, float intensity, float tpf) {
             if (name.equals(MAPPING_WALK)) {
-                player.move(0, 0, tpf);
+                BloodyMonkey.move(0, 0, tpf);
             }
         }
     };
@@ -363,15 +364,15 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
                 channel.setAnim(ANI_IDLE);
 
                 // Calculate the direction to the camera
-                Vector3f directionToCamera = cam.getLocation().subtract(player.getWorldTranslation()).normalizeLocal();
-                player.lookAt(cam.getLocation(), Vector3f.UNIT_Y); // Turn to face the camera
+                Vector3f directionToCamera = cam.getLocation().subtract(BloodyMonkey.getWorldTranslation()).normalizeLocal();
+                BloodyMonkey.lookAt(cam.getLocation(), Vector3f.UNIT_Y); // Turn to face the camera
 
                 // Update walkDirection to point toward the camera
                 walkDirection.set(directionToCamera);
-                player.rotate(0, FastMath.PI, 0);
+                BloodyMonkey.rotate(0, FastMath.PI, 0);
             } else {
                 // Move in the direction the player is facing
-                player.move(walkDirection.mult(tpf));
+                BloodyMonkey.move(walkDirection.mult(tpf));
                 if (!channel.getAnimationName().equals(ANI_WALK)) {
                     channel.setAnim(ANI_WALK);
                     channel.setSpeed(10.0f);
