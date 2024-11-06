@@ -85,7 +85,7 @@ Other room scenes will be added later.
 
 
 *Inside the Classroom*
-<img width="806" alt="Classroom" src="[https://github.com/user-attachments/assets/3f4aac38-2aee-44cc-a843-54aed0cd4464](https://github.com/user-attachments/assets/bba5912a-6929-49a5-8522-8a463c839c49)">
+<img width="806" alt="Classroom" src="https://github.com/user-attachments/assets/bba5912a-6929-49a5-8522-8a463c839c49">
 We added a monster that would chase the player for 2 tpf and then stops and change direction for 1 tpf, facing the camara. The model of monster is temporary. 
 <img width="806" alt="Classroom" src="https://github.com/user-attachments/assets/59fe3fad-af9d-4ce0-bede-0ca4edd70a64">
 
