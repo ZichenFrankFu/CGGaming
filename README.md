@@ -128,13 +128,14 @@ Models
 
 *Added Blackhole Scene*
 
-We found a blackhole 
+We also added a blackhole scene with an angel-shape monster. 
+
+![30281730857781_ pic_hd](https://github.com/user-attachments/assets/6f41b56f-4e4c-4fec-a4bf-589642f1ec7f)
 
 *Animated Scene*
 
 We introduced a monster in the classroom scene that chases the player for 2 tpf before pausing and changing direction for 1 tpf while facing the camera to create a sense of horror (maybe?). It's important to note that this is a temporary model for the monster.
 <img width="806" alt="Classroom" src="https://github.com/user-attachments/assets/59fe3fad-af9d-4ce0-bede-0ca4edd70a64">
-
 
 *guiNode*
 
