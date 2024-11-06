@@ -3,6 +3,7 @@ import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.AnimEventListener;
 import com.jme3.app.SimpleApplication;
+import com.jme3.asset.TextureKey;
 import com.jme3.asset.plugins.FileLocator;
 import com.jme3.export.binary.BinaryExporter;
 import com.jme3.font.BitmapText;
@@ -13,6 +14,7 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.light.PointLight;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
@@ -20,6 +22,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.material.RenderState;
+import com.jme3.texture.Texture;
 import com.jme3.ui.Picture;
 import java.io.File;
 import java.io.IOException;
@@ -236,8 +239,16 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
 
         flyCam.setEnabled(true);
         cam.setLocation(new Vector3f(0, 1.75f, 0)); 
-        cam.lookAtDirection(new Vector3f(0, 0, -1), Vector3f.UNIT_Y); 
-
+        cam.lookAtDirection(new Vector3f(0, 0, -1), Vector3f.UNIT_Y);
+        
+        //Load materials onto player model
+        Material playerMaterial = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
+        TextureKey playerTextureKey = new TextureKey("Textures/blood.png", true); 
+        Texture playerTexture = assetManager.loadTexture(playerTextureKey);
+        playerMaterial.setTexture("DiffuseMap", playerTexture);
+        player.setMaterial(playerMaterial);
+        
+        //User Interface
         Picture frame = new Picture("User interface frame");
         frame.setImage(assetManager, "Interface/save.png", false); 
         float iconWidth = 52;
