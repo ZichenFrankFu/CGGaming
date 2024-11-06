@@ -46,10 +46,12 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
     private static final String ANI_WALK = "Walk";
     private static final String MAPPING_WALK = "walk forward";
     
-    private float walkDuration = 5.0f;
+    private float walkDuration = 2.0f;
     private float stopDuration = 1.0f; 
     private float timer = 0.0f; 
     private boolean isWalking = true; 
+    
+    private Vector3f walkDirection = new Vector3f(0, 0, 1);
 
     public static void main(String[] args) {
         LoadModel app = new LoadModel();
@@ -184,8 +186,9 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
 
         // Load and scale the player model
         player = (Node) assetManager.loadModel("Models/monster_classroom/Jaime.j3o");
-        player.rotate(0, FastMath.DEG_TO_RAD * 180, 0); // Rotate to face the camera
-        player.setLocalScale(2f); // Scale the player model
+        player.rotate(0, FastMath.DEG_TO_RAD * 180, 0);
+        player.setLocalScale(4f);
+        player.setLocalTranslation(0, -1.75f, 0);
         rootNode.attachChild(player);
 
         control = player.getControl(AnimControl.class);
@@ -307,15 +310,24 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
     @Override
     public void simpleUpdate(float tpf) {
         timer += tpf;
-        
+
         if (isWalking) {
             if (timer >= walkDuration) {
+                // Stop walking and turn to face the camera
                 timer = 0;
                 isWalking = false;
                 channel.setAnim(ANI_IDLE);
-                player.lookAt(cam.getLocation(), Vector3f.UNIT_Y); // Face the camera
+
+                // Calculate the direction to the camera
+                Vector3f directionToCamera = cam.getLocation().subtract(player.getWorldTranslation()).normalizeLocal();
+                player.lookAt(cam.getLocation(), Vector3f.UNIT_Y); // Turn to face the camera
+
+                // Update walkDirection to point toward the camera
+                walkDirection.set(directionToCamera);
+                player.rotate(0, FastMath.PI, 0);
             } else {
-                player.move(0, 0, tpf); // Move forward
+                // Move in the direction the player is facing
+                player.move(walkDirection.mult(tpf));
                 if (!channel.getAnimationName().equals(ANI_WALK)) {
                     channel.setAnim(ANI_WALK);
                 }
