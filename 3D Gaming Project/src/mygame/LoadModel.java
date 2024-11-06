@@ -1,14 +1,14 @@
-/**
- * Authors: Jitong Xian, Xinming Shen, Zichen Fu
- * Load model class of game. 
- */
-
 package mygame;
+import com.jme3.animation.AnimChannel;
+import com.jme3.animation.AnimControl;
+import com.jme3.animation.AnimEventListener;
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.plugins.FileLocator;
+import com.jme3.export.binary.BinaryExporter;
 import com.jme3.font.BitmapText;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
@@ -21,19 +21,35 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.material.RenderState;
 import com.jme3.ui.Picture;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
- * This is the Main Class of the Game. You should only do initialization here.
- * Move your Logic into AppStates or Controls
- * @author normenhansen
+ * Authors: Jitong Xian, Xinming Shen, Zichen Fu
+ * Load model class of game. 
  */
-public class LoadModel extends SimpleApplication {
-    
+public class LoadModel extends SimpleApplication implements AnimEventListener {
+
     private BitmapText notificationText;
     private BitmapText crosshair;
     private GameState gameState;
     private SceneSwitchingManager sceneManager;
+    
+    private Node player;
+    private AnimControl control;
+    private AnimChannel channel;
+
+    private static final String ANI_IDLE = "Idle";
+    private static final String ANI_WALK = "Walk";
+    private static final String MAPPING_WALK = "walk forward";
+    
+    private float walkDuration = 5.0f;
+    private float stopDuration = 1.0f; 
+    private float timer = 0.0f; 
+    private boolean isWalking = true; 
 
     public static void main(String[] args) {
         LoadModel app = new LoadModel();
@@ -51,10 +67,6 @@ public class LoadModel extends SimpleApplication {
         // Initialize Scene Manager
         sceneManager = new SceneSwitchingManager(this);
         stateManager.attach(sceneManager);
-        
-        /**
-        * Initializes the Classroom scene
-        */ 
         
         // Load the classroom scene
         Node classroomScene = new Node("Classroom Scene");
@@ -87,7 +99,6 @@ public class LoadModel extends SimpleApplication {
         ObjectControl cakeControl = new ObjectControl(1.0f);
         cake.addControl(cakeControl);
 
-
         // Attach the walls and floor model to the classroom node
         classroomScene.attachChild(door);
         classroomScene.attachChild(walldoor);
@@ -96,7 +107,6 @@ public class LoadModel extends SimpleApplication {
         walldoorNode.attachChild(door);
         walldoorNode.attachChild(elevator);
         walldoorNode.attachChild(elevatorDoor);
-    
     
         // Move or rotate the wallsfloor & door
         walldoor.setLocalTranslation(-2, 1.1f, -4.7f);
@@ -108,7 +118,6 @@ public class LoadModel extends SimpleApplication {
         cake.setLocalScale(2.0f);
         
         // Set up the lighting
-    
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection(new Vector3f(0, -1, 0));
         sun.setColor(ColorRGBA.White);
@@ -156,68 +165,71 @@ public class LoadModel extends SimpleApplication {
         gameState.addPickableItem(poop);
         gameState.addPickableItem(cake);
 
-
         // Create and add a crosshair (point) in the center of the screen
         createCrosshair();
     
-        /**
-        * Initializes the Blackhole scene
-        */ 
         // Load the blackhole scene
         Node blackholeScene = new Node("Blackhole Scene");
         Spatial blackhole = assetManager.loadModel("Models/Blackhole/scene.j3o");
         blackholeScene.attachChild(blackhole);
         sceneManager.addScene(blackholeScene);
         
-        // load Angel
+        // Load Angel
         Spatial angel = assetManager.loadModel("Models/Angel/scene.gltf");
         blackholeScene.attachChild(angel);
         angel.setLocalScale(100f); 
         angel.setName("angel");
         ObjectControl angelControl = new ObjectControl(1.0f);
         angel.addControl(angelControl);
+
+        // Load and scale the player model
+        player = (Node) assetManager.loadModel("Models/monster_classroom/Jaime.j3o");
+        player.rotate(0, FastMath.DEG_TO_RAD * 180, 0); // Rotate to face the camera
+        player.setLocalScale(2f); // Scale the player model
+        rootNode.attachChild(player);
+
+        control = player.getControl(AnimControl.class);
+        if (control != null) {
+            for (String anim : control.getAnimationNames()) {
+                System.out.println(anim);  // Print available animations
+            }
+            control.addListener(this); // Register this as the AnimEventListener
+            channel = control.createChannel();
+            channel.setAnim(ANI_IDLE);
+        }
+
+        flyCam.setEnabled(true);
+        cam.setLocation(new Vector3f(0, 1.75f, 0)); 
+        cam.lookAtDirection(new Vector3f(0, 0, -1), Vector3f.UNIT_Y); 
+
+        Picture frame = new Picture("User interface frame");
+        frame.setImage(assetManager, "Interface/save.png", false); 
+        float iconWidth = 52;
+        float iconHeight = 47;
+        frame.setWidth(iconWidth);
+        frame.setHeight(iconHeight);
+        frame.setPosition(5, settings.getHeight() - iconHeight - 9);
+        guiNode.attachChild(frame);
+    
+        frame.getMaterial().getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
+
+        Picture frame2 = new Picture("Button 2");
+        frame2.setImage(assetManager, "Interface/load.png", false);
+        frame2.setWidth(iconWidth);
+        frame2.setHeight(iconHeight);
+        frame2.setPosition(iconWidth + 10, settings.getHeight() - iconHeight - 5);
+        guiNode.attachChild(frame2);
+    
+        frame2.getMaterial().getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
         
-    
-    
-    
-    // Constrain the camera to walk in the room
-    // Disable the default fly camera to implement custom walking
-    flyCam.setEnabled(true);
-    // Set the initial camera position and direction
-    cam.setLocation(new Vector3f(0, 1.75f, 0)); // Set initial position
-    cam.lookAtDirection(new Vector3f(0, 0, -1), Vector3f.UNIT_Y); // Set initial direction
-
-    // Enable FlyCam for rotation
-    // flyCam.setMoveSpeed(0);  // Disable FlyCam movement, we'll handle custom movement
-
-    // UI icons
-    // To load the save/load icon in top left corner
-    Picture frame = new Picture("User interface frame");
-    // Enable alpha blending for frame (save icon)
-    frame.setImage(assetManager, "Interface/save.png", false); 
-    float iconWidth = 52; // this is arbitary
-    float iconHeight = 47;
-    frame.setWidth(iconWidth);
-    frame.setHeight(iconHeight);
-    frame.setPosition(5, settings.getHeight() - iconHeight - 9);
-    guiNode.attachChild(frame);
-    
-    frame.getMaterial().getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
-
-    Picture frame2 = new Picture("Button 2");
-    frame2.setImage(assetManager, "Interface/load.png", false);
-    frame2.setWidth(iconWidth);
-    frame2.setHeight(iconHeight);
-    frame2.setPosition(iconWidth + 10, settings.getHeight() - iconHeight - 5);
-    guiNode.attachChild(frame2);
-    
-    frame2.getMaterial().getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
-    // Load the initial scene
         sceneManager.switchToNextScene();
 
-        // Add input mapping for switching scenes
         inputManager.addMapping("SwitchScene", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addListener(switchSceneListener, "SwitchScene");
+        inputManager.addMapping(MAPPING_WALK, new KeyTrigger(KeyInput.KEY_Q));
+        inputManager.addListener(actionListener, MAPPING_WALK);
+        inputManager.addListener(analogListener, MAPPING_WALK);
+        
     }
 
     private final ActionListener switchSceneListener = new ActionListener() {
@@ -229,22 +241,91 @@ public class LoadModel extends SimpleApplication {
         }
     };
 
-    /**
-     * Method to create a point-based crosshair and adds it to the GUI node. 
-     */
+    private ActionListener actionListener = new ActionListener() {
+        public void onAction(String name, boolean isPressed, float tpf) {
+            if (name.equals(MAPPING_WALK)) {
+                if (isPressed) {
+                    if (!channel.getAnimationName().equals(ANI_WALK)) {
+                        channel.setAnim(ANI_WALK);
+                    }
+                } else {
+                    channel.setAnim(ANI_IDLE);
+                }
+            }
+        }
+    };
+    
+    private AnalogListener analogListener = new AnalogListener() {
+        public void onAnalog(String name, float intensity, float tpf) {
+            if (name.equals(MAPPING_WALK)) {
+                player.move(0, 0, tpf);
+            }
+        }
+    };
+
     private void createCrosshair() {
         crosshair = new BitmapText(guiFont, false);
-        crosshair.setSize(guiFont.getCharSet().getRenderedSize()); // Set size to the font size
-        crosshair.setText("+"); // This is the crosshair (you can use "." for a dot as well)
-        crosshair.setColor(ColorRGBA.White); // Set the crosshair color to white or another color
-
-        // Calculate the center of the screen and adjust for the crosshair size
+        crosshair.setSize(guiFont.getCharSet().getRenderedSize());
+        crosshair.setText("+");
+        crosshair.setColor(ColorRGBA.White);
         float x = (cam.getWidth() / 2) - (crosshair.getLineWidth() / 2);
         float y = (cam.getHeight() / 2) + (crosshair.getLineHeight() / 2);
-        crosshair.setLocalTranslation(x, y, 0); // Set the position of the crosshair
-
-        // Attach the crosshair to the GUI node so it stays in the HUD
+        crosshair.setLocalTranslation(x, y, 0);
         guiNode.attachChild(crosshair);
+    }
+    
+    @Override
+    public void stop() {
+        String userHome = System.getProperty("user.home");
+        File file = new File(userHome + "/SavedGames/" + "savedgame.j3o");
+        BinaryExporter exporter = BinaryExporter.getInstance();
+        try {
+            exporter.save(rootNode, file);
+        } catch (IOException ex) {
+            Logger.getLogger(LoadModel.class.getName()).log(Level.SEVERE, "Error: Failed to save game!", ex);
+        }
+        super.stop();
+    }
+    
+    public void onAnimCycleDone(AnimControl control, AnimChannel channel, String animName) {
+        if (animName.equals(ANI_WALK)) {
+            System.out.println(control.getSpatial().getName() + " completed one walk loop.");
+        } else if (animName.equals(ANI_IDLE)) {
+            System.out.println(control.getSpatial().getName() + " completed one idle loop.");
+        }
+    }
+    
+    public void onAnimChange(AnimControl control, AnimChannel channel, String animName) {
+        if (animName.equals(ANI_WALK)) {
+            System.out.println(control.getSpatial().getName() + " started walking.");
+        } else if (animName.equals(ANI_IDLE)) {
+            System.out.println(control.getSpatial().getName() + " started being idle.");
+        }
+    }
+    
+    
+    @Override
+    public void simpleUpdate(float tpf) {
+        timer += tpf;
+        
+        if (isWalking) {
+            if (timer >= walkDuration) {
+                timer = 0;
+                isWalking = false;
+                channel.setAnim(ANI_IDLE);
+                player.lookAt(cam.getLocation(), Vector3f.UNIT_Y); // Face the camera
+            } else {
+                player.move(0, 0, tpf); // Move forward
+                if (!channel.getAnimationName().equals(ANI_WALK)) {
+                    channel.setAnim(ANI_WALK);
+                }
+            }
+        } else {
+            if (timer >= stopDuration) {
+                timer = 0;
+                isWalking = true;
+            }
+        }
     }
     
 }
