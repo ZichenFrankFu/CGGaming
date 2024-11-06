@@ -132,4 +132,8 @@ Models
 We introduced a monster in the classroom scene that chases the player for 2 tpf before pausing and changing direction for 1 tpf while facing the camera to create a sense of horror (maybe?). It's important to note that this is a temporary model for the monster.
 <img width="806" alt="Classroom" src="https://github.com/user-attachments/assets/59fe3fad-af9d-4ce0-bede-0ca4edd70a64">
 
+*guiNode*
+We have 2 gui designed and loaded, as displayed in the top left corner. The 'save' GUI symbolizes a folder with blood, becasue every save is achieved by several dying. 'load' looks like a small monster in a pocket
+We've implemented two GUIs, which are displayed in the top left corner of the screen. The "save" GUI is stylized as a folder dripping with blood, symbolizing the sacrifices made in achieving each save. The "load" GUI is represented by a small monster in a pocket, hinting at the mysterious and potentially perilous nature of loading a saved game.
+
 
