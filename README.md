@@ -135,9 +135,13 @@ We also added a blackhole scene with an angel-shape monster.
 *Animated Scene*
 
 We introduced a monster in the classroom scene that chases the player for 2 tpf before pausing and changing direction for 1 tpf while facing the camera to create a sense of horror (maybe?). It's important to note that this is a temporary model for the monster.
-<img width="806" alt="Classroom" src="https://github.com/user-attachments/assets/59fe3fad-af9d-4ce0-bede-0ca4edd70a64">
+A blood texture have been loaded onto the monster in classroom scene to make it look more horrifying. 
+
+<img width="801" alt="Screenshot 2024-11-06 at 18 57 39" src="https://github.com/user-attachments/assets/ad8361df-6276-41bf-bc8c-eac23649f06a">
 
 *guiNode*
+
+<img width="414" alt="Screenshot 2024-11-06 at 18 51 54" src="https://github.com/user-attachments/assets/11df0f51-6df2-49e5-9b8c-7f9c8c16ae37">
 
 We have 2 gui designed and loaded, as displayed in the top left corner. The 'save' GUI symbolizes a folder with blood, becasue every save is achieved by several dying. 'load' looks like a small monster in a pocket
 We've implemented two GUIs, which are displayed in the top left corner of the screen. The "save" GUI is stylized as a folder dripping with blood, symbolizing the sacrifices made in achieving each save. The "load" GUI is represented by a small monster in a pocket, hinting at the mysterious and potentially perilous nature of loading a saved game.
@@ -146,5 +150,8 @@ We've implemented two GUIs, which are displayed in the top left corner of the sc
 
 We combined AmbientLight and DirectionalLight to set up lighting. The AmbientLight provides a base level of illumination, preventing objects from appearing completely dark. The DirectionalLight simulates sunlight, casting shadows and creating depth in the scene. The direction is decided through experiments. We also experimented with different light colors and intensities to fine-tune the overall lighting effect. 
 Additionally, we considered using PointLight or SpotLight to highlight specific areas or objects, but we found that the combination of AmbientLight and DirectionalLight was sufficient for the current scene, as in a horror game they are supposed to be dim.
+
+*Physics*
+
 
 
