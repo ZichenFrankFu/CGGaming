@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.control.BetterCharacterControl;
 import com.jme3.bullet.control.RigidBodyControl;
 
 
@@ -71,8 +72,12 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
      */                            
     @Override
     public void simpleInitApp() {
+        
         bulletAppState = new BulletAppState();
         stateManager.attach(bulletAppState);
+        
+        // Add gravity
+        bulletAppState.getPhysicsSpace().setGravity(new Vector3f(0, -1.62f, 0));
         
         // Register the assets folder to ensure models can be loaded properly
         assetManager.registerLocator("assets/", FileLocator.class);
@@ -100,20 +105,28 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
         Node elevatorNode = (Node) elevator;
         Spatial elevatorDoor = assetManager.loadModel("Models/Elevator/ElevatorDoors.j3o");
     
-// Load Poop
-Spatial poop = assetManager.loadModel("Models/Items/toiletpoop.j3o");
-poop.setName("Poop");
-RigidBodyControl poopControl = new RigidBodyControl(1.0f); // Mass of 1 for realistic movement
-poop.addControl(poopControl);
-bulletAppState.getPhysicsSpace().add(poopControl); // Add to physics space
+        // Load Poop
+        Spatial poop = assetManager.loadModel("Models/Items/toiletpoop.j3o");
+        poop.setName("Poop");
+        RigidBodyControl poopControl = new RigidBodyControl(1.0f); 
+        poop.addControl(poopControl);
+        bulletAppState.getPhysicsSpace().add(poopControl);
 
-// Load Cake
-Spatial cake = assetManager.loadModel("Models/Items/CAFETERIAcake.j3o");
-cake.setName("Cake");
-RigidBodyControl cakeControl = new RigidBodyControl(0.5f); // Lighter mass for a different effect
-cake.addControl(cakeControl);
-bulletAppState.getPhysicsSpace().add(cakeControl); // Add to physics space
+        Spatial floatingPoop = assetManager.loadModel("Models/Items/toiletpoop.j3o");
+        floatingPoop.setName("FloatingPoop");
+        RigidBodyControl floatingPoopControl = new RigidBodyControl(1.0f); 
+        floatingPoop.addControl(floatingPoopControl);
+        bulletAppState.getPhysicsSpace().add(floatingPoopControl);
 
+        floatingPoop.setLocalTranslation(0, 10, -1); 
+        classroomScene.attachChild(floatingPoop);
+
+        // Load Cake
+        Spatial cake = assetManager.loadModel("Models/Items/CAFETERIAcake.j3o");
+        cake.setName("Cake");
+        RigidBodyControl cakeControl = new RigidBodyControl(0.5f); 
+        cake.addControl(cakeControl);
+        bulletAppState.getPhysicsSpace().add(cakeControl); 
 
         // Attach the walls and floor model to the classroom node
         classroomScene.attachChild(door);
@@ -133,10 +146,9 @@ bulletAppState.getPhysicsSpace().add(cakeControl); // Add to physics space
         cake.setLocalTranslation(0, 0.1f, -1);
         cake.setLocalScale(2.0f);
         
-        classroomPhy = new RigidBodyControl(0f); // Static, non-moving
+        classroomPhy = new RigidBodyControl(0f);
         classroomScene.addControl(classroomPhy);
-      bulletAppState.getPhysicsSpace().add(classroomPhy); // Add to physics space
-
+        bulletAppState.getPhysicsSpace().add(classroomPhy);
         
         // Set up the lighting
         DirectionalLight sun = new DirectionalLight();
@@ -190,9 +202,6 @@ bulletAppState.getPhysicsSpace().add(cakeControl); // Add to physics space
         gameState = new GameState(cam, inputManager, notificationText);
         stateManager.attach(gameState);
 
-        // Initialize the UserInput class with the notification text
-        new UserInput(cam, inputManager, gameState, notificationText);
-
         // Add items to the pickable list
         gameState.addPickableItem(poop);
         gameState.addPickableItem(cake);
@@ -239,9 +248,16 @@ bulletAppState.getPhysicsSpace().add(cakeControl); // Add to physics space
         // Load and scale the BloodyMonkey model
         BloodyMonkey = (Node) assetManager.loadModel("Models/monster_classroom/Jaime.j3o");
         BloodyMonkey.rotate(0, FastMath.DEG_TO_RAD * 180, 0);
-        BloodyMonkey.setLocalScale(4f);
-        BloodyMonkey.setLocalTranslation(0, -1.75f, 0);
+        BloodyMonkey.setLocalScale(1.0f);
+        BloodyMonkey.setLocalTranslation(0, 3.0f, 0);
         classroomScene.attachChild(BloodyMonkey);
+        
+        BetterCharacterControl monsterControl = new BetterCharacterControl(1.5f, 4f, 50f); // radius, height, weight
+        monsterControl.setGravity(new Vector3f(0, -9.81f, 0));
+        BloodyMonkey.addControl(monsterControl);
+        bulletAppState.getPhysicsSpace().add(monsterControl); // Register to physics space
+
+        classroomScene.attachChild(BloodyMonkey); // Attach to classroom scene
 
         control = BloodyMonkey.getControl(AnimControl.class);
         if (control != null) {
