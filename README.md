@@ -132,6 +132,10 @@ We also added a blackhole scene with an angel-shape monster.
 
 ![30281730857781_ pic_hd](https://github.com/user-attachments/assets/6f41b56f-4e4c-4fec-a4bf-589642f1ec7f)
 
+*Room Transition*
+
+We have implemented a scene switching manager for our game. Currently, pressing the space bar switches the scene between the blackhole and the classroom. In the future, we will add mechanisms for pressing the elevator button and make that the trigger for scene switching. 
+
 *Animated Scene*
 
 We introduced a monster in the classroom scene that chases the player for 2 tpf before pausing and changing direction for 1 tpf while facing the camera to create a sense of horror (maybe?). It's important to note that this is a temporary model for the monster.
