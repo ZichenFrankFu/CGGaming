@@ -118,8 +118,21 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
         floatingPoop.addControl(floatingPoopControl);
         bulletAppState.getPhysicsSpace().add(floatingPoopControl);
 
-        floatingPoop.setLocalTranslation(0, 10, -1); 
+        floatingPoop.setLocalTranslation(2, 10, -1); 
         classroomScene.attachChild(floatingPoop);
+        
+        Spatial floatingPoop2 = assetManager.loadModel("Models/Items/toiletpoop.j3o");
+        floatingPoop2.setName("FloatingPoop2");
+        RigidBodyControl floatingPoopControl2 = new RigidBodyControl(1.0f); 
+        floatingPoop2.addControl(floatingPoopControl2);
+        bulletAppState.getPhysicsSpace().add(floatingPoopControl2);
+
+        floatingPoop2.setLocalTranslation(4, 10, -5); 
+        classroomScene.attachChild(floatingPoop2);
+        
+        floatingPoopControl.setGravity(new Vector3f(0, -0.1f, 0)); // Slow fall
+        floatingPoopControl2.setGravity(new Vector3f(0, -1.0f, 0)); 
+
 
         // Load Cake
         Spatial cake = assetManager.loadModel("Models/Items/CAFETERIAcake.j3o");
@@ -249,11 +262,11 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
         BloodyMonkey = (Node) assetManager.loadModel("Models/monster_classroom/Jaime.j3o");
         BloodyMonkey.rotate(0, FastMath.DEG_TO_RAD * 180, 0);
         BloodyMonkey.setLocalScale(1.0f);
-        BloodyMonkey.setLocalTranslation(0, 3.0f, 0);
+//        BloodyMonkey.setLocalTranslation(0, 3.0f, 0);
         classroomScene.attachChild(BloodyMonkey);
         
         BetterCharacterControl monsterControl = new BetterCharacterControl(1.5f, 4f, 50f); // radius, height, weight
-        monsterControl.setGravity(new Vector3f(0, -9.81f, 0));
+        monsterControl.setGravity(new Vector3f(0, -1.62f, 0));
         BloodyMonkey.addControl(monsterControl);
         bulletAppState.getPhysicsSpace().add(monsterControl); // Register to physics space
 
