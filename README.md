@@ -163,6 +163,7 @@ We’ve implemented our game with a fun new physics effect! Now, when the monste
 <img width="663" alt="Screenshot 2024-11-06 at 22 12 51" src="https://github.com/user-attachments/assets/f8b194bc-35fa-4dda-8875-7fe66eff50c1">
 
 *Scary Picture Warning!*
+
 <img width="536" alt="Screenshot 2024-11-06 at 22 14 33" src="https://github.com/user-attachments/assets/c928d5b1-4148-44f0-93d4-be70a6416265">
 
 
