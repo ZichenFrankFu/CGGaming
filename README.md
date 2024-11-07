@@ -156,6 +156,9 @@ We combined AmbientLight and DirectionalLight to set up lighting. The AmbientLig
 Additionally, we considered using PointLight or SpotLight to highlight specific areas or objects, but we found that the combination of AmbientLight and DirectionalLight was sufficient for the current scene, as in a horror game they are supposed to be dim.
 
 *Physics*
+
 We added physics effects such as collision and gravity. Currently, the monster in classroom knocks over the poop and the cake in the classroom when it passes over, and items (E.g., cake, poop) fall down when they're in mid air. 
 <img width="663" alt="Screenshot 2024-11-06 at 22 12 51" src="https://github.com/user-attachments/assets/f8b194bc-35fa-4dda-8875-7fe66eff50c1">
+<img width="536" alt="Screenshot 2024-11-06 at 22 14 33" src="https://github.com/user-attachments/assets/c928d5b1-4148-44f0-93d4-be70a6416265">
+
 
