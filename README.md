@@ -156,10 +156,8 @@ We combined AmbientLight and DirectionalLight to set up lighting. The AmbientLig
 Additionally, we considered using PointLight or SpotLight to highlight specific areas or objects, but we found that the combination of AmbientLight and DirectionalLight was sufficient for the current scene, as in a horror game they are supposed to be dim.
 
 *Physics*
+We’ve implemented our game with a fun new physics effect! Now, when the monster spawns from the ground, any cake and poop lying around will be kicked away in a realistic manner. Now the classroom scene has the rigid body and a gravity of 1.62, the same with the gravity on the real moon. These small details add a dynamic and interactive element to the environment, making the game feel more alive and reactive.
 
-We added physics effects such as collision and gravity. Currently, the monster in classroom knocks over the poop and the cake in the classroom when it passes over, and items (E.g., cake, poop) fall down when they're in mid air. 
-
-Since the game is set on the moon, we have made gravity 1.62 instead of 9.8 as on Earth. 
 
 <img width="663" alt="Screenshot 2024-11-06 at 22 12 51" src="https://github.com/user-attachments/assets/f8b194bc-35fa-4dda-8875-7fe66eff50c1">
 
