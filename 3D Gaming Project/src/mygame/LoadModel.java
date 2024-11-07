@@ -28,6 +28,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.control.RigidBodyControl;
 
 
 /**
@@ -40,7 +42,6 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
     private BitmapText crosshair;
     private GameState gameState;
     private SceneSwitchingManager sceneManager;
-    private PhysicsHandler physicsHandler;
     
     private Node BloodyMonkey;
     private AnimControl control;
@@ -56,6 +57,9 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
     private boolean isWalking = true; 
     
     private Vector3f walkDirection = new Vector3f(0, 0, 1);
+    
+    private BulletAppState bulletAppState;
+    private RigidBodyControl classroomPhy;
 
     public static void main(String[] args) {
         LoadModel app = new LoadModel();
@@ -67,6 +71,9 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
      */                            
     @Override
     public void simpleInitApp() {
+        bulletAppState = new BulletAppState();
+        stateManager.attach(bulletAppState);
+        
         // Register the assets folder to ensure models can be loaded properly
         assetManager.registerLocator("assets/", FileLocator.class);
 
@@ -93,17 +100,20 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
         Node elevatorNode = (Node) elevator;
         Spatial elevatorDoor = assetManager.loadModel("Models/Elevator/ElevatorDoors.j3o");
     
-        // Load Poop
-        Spatial poop = assetManager.loadModel("Models/Items/toiletpoop.j3o");
-        poop.setName("Poop");
-        ObjectControl poopControl = new ObjectControl(3.0f);
-        poop.addControl(poopControl);
-    
-        // Load Cake
-        Spatial cake = assetManager.loadModel("Models/Items/CAFETERIAcake.j3o");
-        cake.setName("Cake");
-        ObjectControl cakeControl = new ObjectControl(1.0f);
-        cake.addControl(cakeControl);
+// Load Poop
+Spatial poop = assetManager.loadModel("Models/Items/toiletpoop.j3o");
+poop.setName("Poop");
+RigidBodyControl poopControl = new RigidBodyControl(1.0f); // Mass of 1 for realistic movement
+poop.addControl(poopControl);
+bulletAppState.getPhysicsSpace().add(poopControl); // Add to physics space
+
+// Load Cake
+Spatial cake = assetManager.loadModel("Models/Items/CAFETERIAcake.j3o");
+cake.setName("Cake");
+RigidBodyControl cakeControl = new RigidBodyControl(0.5f); // Lighter mass for a different effect
+cake.addControl(cakeControl);
+bulletAppState.getPhysicsSpace().add(cakeControl); // Add to physics space
+
 
         // Attach the walls and floor model to the classroom node
         classroomScene.attachChild(door);
@@ -122,6 +132,11 @@ public class LoadModel extends SimpleApplication implements AnimEventListener {
         elevatorDoor.setLocalTranslation(0, -3, -3);
         cake.setLocalTranslation(0, 0.1f, -1);
         cake.setLocalScale(2.0f);
+        
+        classroomPhy = new RigidBodyControl(0f); // Static, non-moving
+        classroomScene.addControl(classroomPhy);
+      bulletAppState.getPhysicsSpace().add(classroomPhy); // Add to physics space
+
         
         // Set up the lighting
         DirectionalLight sun = new DirectionalLight();
