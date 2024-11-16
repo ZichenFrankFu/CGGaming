@@ -13,11 +13,11 @@ import com.jme3.renderer.RenderManager;
  * Move your Logic into AppStates or Controls
  * @author normenhansen
  */
-public class Main extends SimpleApplication {
+public class Fog extends SimpleApplication {
 
     public static void main(String[] args) {
         Terrain app = new Terrain ();
-        app.start(); 
+        app.start();
     }
 
     @Override
