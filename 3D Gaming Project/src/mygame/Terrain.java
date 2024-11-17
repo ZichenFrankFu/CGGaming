@@ -42,6 +42,7 @@ public class Terrain extends SimpleApplication {
     private Node reflectedScene;
     private DepthOfFieldFilter dofFilter;
     private BloomFilter bloom;
+    private Node room3;
 
     public static void main(String[] args) {
         Terrain app = new Terrain ();
@@ -50,27 +51,31 @@ public class Terrain extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
-        
+        room3 = new Node("Room3 Node");
+        rootNode.attachChild(room3);
+    }
+    
+    public Node loadRoom3(){
         //Add Terrain
         Spatial terrainGeo = assetManager.loadModel("Scenes/room_3.j3o");
-        rootNode.attachChild(terrainGeo);
+        room3.attachChild(terrainGeo);
         
         //Add Trees
         Spatial tree1 = assetManager.loadModel("Models/Tree/Tree.j3o");
         tree1.scale(10); 
         tree1.setQueueBucket(Bucket.Transparent);
-        rootNode.attachChild(tree1);
+        room3.attachChild(tree1);
         Vector3f treeLoc1 = new Vector3f(0,7f,0);
         tree1.setLocalTranslation(treeLoc1);
         
         Spatial tree2 = tree1.clone();
-        rootNode.attachChild(tree2);
+        room3.attachChild(tree2);
         Vector3f treeLoc2 = new Vector3f(-50,7f,-50);
         tree2.setLocalTranslation(treeLoc2);
         
         //Add Sky
         Spatial mySky = assetManager.loadModel("Scenes/mySky.j3o");
-        rootNode.attachChild(mySky);
+        room3.attachChild(mySky);
         
         //Set Camera
         cam.setLocation(new Vector3f(-100, 10, -100));
@@ -85,20 +90,19 @@ public class Terrain extends SimpleApplication {
         fogFilter.setFogDensity(0.2f);
         fpp.addFilter(fogFilter);
         fogFilter.setFogColor(new ColorRGBA(0.9f, 0.9f, 0.9f, 1.0f));
-        
-        
+
         //Add Sunlight
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection(lightDir);
         sun.setColor(ColorRGBA.White.clone().multLocal(2));
-        rootNode.addLight(sun);
+        room3.addLight(sun);
         sunLightFilter = new LightScatteringFilter(lightDir.mult(-3000));
         fpp.addFilter(sunLightFilter);
         cam.lookAtDirection(lightDir.negate(),Vector3f.UNIT_Y);
         
         //Add Water
         reflectedScene = new Node("Scene");
-        rootNode.attachChild(reflectedScene);
+        room3.attachChild(reflectedScene);
         
         Spatial boat = assetManager.loadModel("Models/Swan_Boat/swanboat.j3o");
         boat.scale(4);
@@ -116,12 +120,12 @@ public class Terrain extends SimpleApplication {
         
         //Bonfire Model
         Spatial bonfire = assetManager.loadModel("Models/bonfire/bonfire_pot.j3o");
-        rootNode.attachChild(bonfire);
+        room3.attachChild(bonfire);
         bonfire.scale(8);
         bonfire.setLocalTranslation(new Vector3f(-20, 13, -20));
         
         Spatial forest = assetManager.loadModel("Models/manyTrees/multiple_trees.j3o");
-        rootNode.attachChild(forest);
+        room3.attachChild(forest);
         forest.scale(8);
         forest.setLocalTranslation(new Vector3f(-150, 5, -170));
                 
@@ -152,6 +156,7 @@ public class Terrain extends SimpleApplication {
         bloom = new BloomFilter();
         fpp.addFilter(bloom);
         */
+        return room3;
     }
     
     public void simpleUpdate() {

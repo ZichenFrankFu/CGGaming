@@ -50,7 +50,7 @@ public class ParticleEffects extends SimpleApplication {
         dustEmitter.setSelectRandomImage(true);
         dustEmitter.setRandomAngle(true);
         dustEmitter.getParticleInfluencer().setVelocityVariation(1f);
-        dustEmitter.setLocalTranslation(new Vector3f(50, 50, 50));
+        dustEmitter.setLocalTranslation(new Vector3f(50, 5, 50));
         rootNode.attachChild(dustEmitter);
     }
     
@@ -75,7 +75,7 @@ public class ParticleEffects extends SimpleApplication {
         sparksEmitter.setEndSize(5f);
         sparksEmitter.setLowLife(.9f);
         sparksEmitter.setHighLife(1.1f);
-        sparksEmitter.setLocalTranslation(new Vector3f(-200, 120, 0));
+        sparksEmitter.setLocalTranslation(new Vector3f(100, 5, 100));
     }
     
     public void burst(){
@@ -100,7 +100,7 @@ public class ParticleEffects extends SimpleApplication {
         burstEmitter.getParticleInfluencer().
         setVelocityVariation(1f);
         burstEmitter.setShape(new EmitterSphereShape(Vector3f.ZERO, .5f));
-        burstEmitter.setLocalTranslation(new Vector3f(70, 70, 70));
+        burstEmitter.setLocalTranslation(new Vector3f(70, 5, 70));
     }
     
     public void fire(){
@@ -122,7 +122,7 @@ public class ParticleEffects extends SimpleApplication {
         setInitialVelocity(new Vector3f(0,3f,0));
         fireEmitter.setLowLife(0.5f);
         fireEmitter.setHighLife(2f);
-        fireEmitter.setStartSize(2.5f);
+        fireEmitter.setStartSize(4f);
         fireEmitter.setEndSize(0.05f);
         fireEmitter.setLocalTranslation(new Vector3f(-20, 5, -20));
     }
