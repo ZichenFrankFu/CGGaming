@@ -16,7 +16,7 @@ import com.jme3.renderer.RenderManager;
 public class Main extends SimpleApplication {
 
     public static void main(String[] args) {
-        LoadModel app = new LoadModel ();
+        Terrain app = new Terrain();
         app.start(); 
     }
 

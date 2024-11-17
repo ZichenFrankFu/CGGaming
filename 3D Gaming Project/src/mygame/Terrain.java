@@ -6,23 +6,26 @@
 
 package mygame;
 import com.jme3.app.SimpleApplication;
+import com.jme3.collision.CollisionResult;
+import com.jme3.collision.CollisionResults;
+import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
-import com.jme3.material.Material;
-import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Ray;
 import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
+import com.jme3.post.filters.BloomFilter;
+import com.jme3.post.filters.DepthOfFieldFilter;
 import com.jme3.post.filters.FogFilter;
 import com.jme3.post.filters.LightScatteringFilter;
+import com.jme3.post.ssao.SSAOFilter;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
-import com.jme3.scene.Geometry;
+import com.jme3.renderer.queue.RenderQueue.ShadowMode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
-import com.jme3.scene.shape.Quad;
-import com.jme3.util.SkyFactory;
-import com.jme3.water.SimpleWaterProcessor;
+import com.jme3.shadow.DirectionalLightShadowFilter;
+import com.jme3.shadow.DirectionalLightShadowRenderer;
 import com.jme3.water.WaterFilter;
 
 /**
@@ -34,9 +37,11 @@ public class Terrain extends SimpleApplication {
     
     private FilterPostProcessor fpp;
     private FogFilter fogFilter;
-    private Vector3f lightDir = new Vector3f(-0.39f, -0.32f, -0.74f);
+    private final Vector3f lightDir = new Vector3f(-0.39f, -0.32f, -0.74f);
     private LightScatteringFilter sunLightFilter;
     private Node reflectedScene;
+    private DepthOfFieldFilter dofFilter;
+    private BloomFilter bloom;
 
     public static void main(String[] args) {
         Terrain app = new Terrain ();
@@ -45,6 +50,7 @@ public class Terrain extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
+        
         //Add Terrain
         Spatial terrainGeo = assetManager.loadModel("Scenes/room_3.j3o");
         rootNode.attachChild(terrainGeo);
@@ -54,14 +60,12 @@ public class Terrain extends SimpleApplication {
         tree1.scale(10); 
         tree1.setQueueBucket(Bucket.Transparent);
         rootNode.attachChild(tree1);
-        Vector3f treeLoc1 = new Vector3f(0,5,0);
-        treeLoc1.setY( terrainGeo.getLocalTranslation().getY() );
+        Vector3f treeLoc1 = new Vector3f(0,7f,0);
         tree1.setLocalTranslation(treeLoc1);
         
         Spatial tree2 = tree1.clone();
         rootNode.attachChild(tree2);
-        Vector3f treeLoc2 = new Vector3f(30,5,30);
-        treeLoc1.setY( terrainGeo.getLocalTranslation().getY() );
+        Vector3f treeLoc2 = new Vector3f(-50,7f,-50);
         tree2.setLocalTranslation(treeLoc2);
         
         //Add Sky
@@ -69,7 +73,7 @@ public class Terrain extends SimpleApplication {
         rootNode.attachChild(mySky);
         
         //Set Camera
-        cam.setLocation(new Vector3f(100, 10, 0));
+        cam.setLocation(new Vector3f(-100, 10, -100));
         flyCam.setMoveSpeed(100);
         
         //Add Fog
@@ -78,9 +82,10 @@ public class Terrain extends SimpleApplication {
         
         fogFilter = new FogFilter();
         fogFilter.setFogDistance(500);
-        fogFilter.setFogDensity(0.3f);
+        fogFilter.setFogDensity(0.2f);
         fpp.addFilter(fogFilter);
         fogFilter.setFogColor(new ColorRGBA(0.9f, 0.9f, 0.9f, 1.0f));
+        
         
         //Add Sunlight
         DirectionalLight sun = new DirectionalLight();
@@ -107,15 +112,52 @@ public class Terrain extends SimpleApplication {
         WaterFilter water = new WaterFilter(reflectedScene, lightDir);
         fpp.addFilter(water);
         water.setWaterHeight(3f);
-        
         terrainGeo.setLocalTranslation(terrainGeo.getLocalTranslation().add(0, 5, 0));
+        
+        //Bonfire Model
+        Spatial bonfire = assetManager.loadModel("Models/bonfire/bonfire_pot.j3o");
+        rootNode.attachChild(bonfire);
+        bonfire.scale(8);
+        bonfire.setLocalTranslation(new Vector3f(-20, 13, -20));
+        
+        Spatial forest = assetManager.loadModel("Models/manyTrees/multiple_trees.j3o");
+        rootNode.attachChild(forest);
+        forest.scale(8);
+        forest.setLocalTranslation(new Vector3f(-150, 5, -170));
+                
+        //Particle Effects
+        ParticleEffects particle = new ParticleEffects(assetManager, rootNode);
+        particle.dust();
+        particle.sparks();
+        particle.burst();
+        particle.fire();
+        
+        //Shading & Lighting -- Does not work for now somehow
+        
+        DirectionalLightShadowFilter dlsf = new DirectionalLightShadowFilter(assetManager, 1024, 2);
+        dlsf.setLight(sun);
+        dlsf.setEnabled(true);
+        
+        fpp.addFilter(dlsf);
+        viewPort.addProcessor(fpp);
+        
+        //rootNode.setShadowMode(ShadowMode.Off);
+        terrainGeo.setShadowMode(ShadowMode.CastAndReceive);
+        tree1.setShadowMode(ShadowMode.CastAndReceive);
+        tree2.setShadowMode(ShadowMode.CastAndReceive);
+        bonfire.setShadowMode(ShadowMode.CastAndReceive);
+        
+        //Not really suitable for this scene, but it works
+        /*
+        bloom = new BloomFilter();
+        fpp.addFilter(bloom);
+        */
     }
     
-    @Override
-    public void simpleUpdate(float tpf) {
+    public void simpleUpdate() {
 
     }
-
+    
     @Override
     public void simpleRender(RenderManager rm) {
 
